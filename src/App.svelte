@@ -1,11 +1,6 @@
 <script>
-  export let name;
+  import Duration from './Duration.svelte';
+  import { time } from './stores.js';
 </script>
 
-<style>
-  h1 {
-    color: purple;
-  }
-</style>
-
-<h1>Hello {name}!</h1>
+<Duration duration={$time / 1000} />
