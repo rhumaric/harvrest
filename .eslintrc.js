@@ -1,20 +1,32 @@
 module.exports = {
   extends: [
     "eslint:recommended",
-    "plugin:node/recommended",
     "plugin:prettier/recommended"
   ],
+  env: {
+    es6: true,
+    browser: true
+  },
+  parserOptions: {
+    ecmaVersion: 2020,
+    sourceType: 'module'
+  },
+  plugins: [
+    'svelte3'
+  ],
+  globals: {
+    'process': true
+  },
   "overrides": [
     {
-      "files": [
-        "**/__tests__/**/*"
-      ],
-      rules: {
-        // Tests will require dev only packages
-        "node/no-unpublished-require": 0,
-        // Allow tests to use a local the `node_modules`
-        "node/no-extraneous-require": 0
+      files: ['*.config.js','.*rc.js'],
+      env: {
+        node: true
       }
+    },
+    {
+      files: ['*.svelte'],
+      processor: 'svelte3/svelte3'
     }
   ]
 }
