@@ -1,12 +1,8 @@
 <script>
   import Duration from './Duration.svelte';
-  export let started;
   export let rest;
   export let elapsed;
-  export let endSession;
-  export let startSession;
 </script>
 
-{rest ? 'Rest' : 'Active'}
+<p class="lead">{rest ? 'Rest' : 'Active'}</p>
 <Duration duration={elapsed / 1000} />
-<button on:click={endSession}>End</button>

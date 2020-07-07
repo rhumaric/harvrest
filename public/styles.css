@@ -6,3 +6,145 @@
 time {
   font-variant-numeric: tabular-nums;
 }
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  line-height: 1.5rem;
+}
+
+body > * {
+  max-width: 35rem;
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+}
+
+input {
+  font: inherit;
+}
+
+button {
+  font: inherit;
+  appearance: none;
+  border-top-left-radius: calc(6em / 16) 50%;
+  border-top-right-radius: calc(6em / 16) 50%;
+  border-bottom-left-radius: calc(6em / 16) 50%;
+  border-bottom-right-radius: calc(6em / 16) 50%;
+  border: solid 0.125rem white;
+  background: #460160;
+  color: #f9f5ef;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  box-shadow: 0 0.25rem 0 #e9cac3;
+  cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+  box-shadow: 0 0.5rem 0 #e9cac3;
+}
+
+body {
+  background: #fbe1ce;
+  color: #460160;
+  font-family: sans-serif;
+}
+
+*:focus {
+  outline: solid 0.125rem #460160;
+  outline-offset: 0.125rem;
+}
+
+/* Bootstrap's .sr-only */
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.d-inline {
+  display: inline;
+}
+
+.lead {
+  text-align:center;
+  font-size: 1.25rem;
+}
+
+* + .content {
+  margin-top: 1.25rem;
+}
+
+.content {
+  padding: 1.5rem 2rem 3rem;
+  border-top-left-radius: 5% 50%;
+  border-top-right-radius: 5% 50%;
+  border-bottom-left-radius: 5% 50%;
+  border-bottom-right-radius: 5% 50%;
+  background: #f9f5ef;
+  box-shadow: 0 0.25rem 0 #e9cac3;
+
+  position: relative;
+
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.content > * + * {
+  margin-top: 1.5rem;
+}
+
+.content__action {
+  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.inline-input {
+  background: white;
+  border: solid 2px #99649a;
+  border-radius: 0.25rem;
+  color: inherit;
+  text-align: right;
+  padding: 0 0.25rem;
+  width: 2.5rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+}
+
+.timer {
+  background: #a582ab;
+  padding: 0.5rem 1rem;
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 0.25em;
+  color: #460160;
+}
+
+.content .timer {
+  margin-bottom: 1rem;
+}

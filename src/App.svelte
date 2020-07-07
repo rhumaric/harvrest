@@ -63,9 +63,20 @@
   }
 </script>
 
-{#if started}
-  <Timer {started} {rest} {elapsed} {startSession} {endSession} />
-{:else}
-  <Settings {settings} />
-  <button on:click={startSession}>Start</button>
-{/if}
+<main>
+  <h1>Harvrest</h1>
+  {#if started}
+    <div class="content">
+      <Timer {started} {rest} {elapsed} {startSession} />
+      <button class="content__action" on:click={endSession}>Stop</button>
+    </div>
+  {:else}
+    <form
+      aria-label="Settings"
+      class="content"
+      on:submit|preventDefault={startSession}>
+      <Settings {settings} />
+      <button class="content__action">Let's go!</button>
+    </form>
+  {/if}
+</main>

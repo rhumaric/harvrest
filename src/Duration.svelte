@@ -24,6 +24,6 @@
   }
 </script>
 
-<time datetime={formatIsoDuration({ seconds: duration })}>
+<time class="timer" datetime={formatIsoDuration({ seconds: duration })}>
   {format(duration)}
 </time>
