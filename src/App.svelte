@@ -9,12 +9,24 @@
   // to check if it holds an unsubscribe function
   // before calling it
   let stop = () => {};
-  let threshold = 2 * 1000;
-  let restTime = 2 * 1000;
+
+  let activeTime = 0;
+  let restTime = 0;
+
+  let threshold = Infinity;
+
+  let minActiveTime = 2 * 1000;
+  let maxActiveTime = 10 * 1000;
+  let restForMinActiveTime = 1 * 1000;
 
   function endSession() {
     stop();
-    if (!rest && elapsed > threshold) {
+    if (!rest) {
+      activeTime = elapsed;
+    } else {
+      restTime = elapsed;
+    }
+    if (!rest && elapsed > minActiveTime) {
       rest = true;
       startTimer();
     } else {
@@ -32,13 +44,18 @@
     // rather than when Svelte destroys the Duration
     // subscription
     stop = time().subscribe(registerTime);
+    if (rest) {
+      const earnedRestTime =
+        (restForMinActiveTime * activeTime) / minActiveTime;
+      threshold = earnedRestTime || Infinity;
+    } else {
+      threshold = maxActiveTime || Infinity;
+    }
   }
   function registerTime(value) {
     elapsed = value;
-    if (rest) {
-      if (elapsed > restTime) {
-        endSession();
-      }
+    if (elapsed > threshold) {
+      endSession();
     }
   }
 </script>
