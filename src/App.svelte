@@ -1,5 +1,5 @@
 <script>
-  import Duration from './Duration.svelte';
+  import Timer from './Timer.svelte';
   import { time } from './stores.js';
 
   let started;
@@ -60,10 +60,4 @@
   }
 </script>
 
-{#if started}
-  {rest ? 'Rest' : 'Active'}
-  <Duration duration={elapsed / 1000} />
-  <button on:click={endSession}>End</button>
-{:else}
-  <button on:click={startSession}>Start</button>
-{/if}
+<Timer {started} {rest} {elapsed} {startSession} {endSession} />
