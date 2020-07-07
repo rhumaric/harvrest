@@ -2,10 +2,7 @@ import App from './App.svelte';
 
 // Code goes here
 const app = new App({
-  target: document.body,
-  props: {
-    name: 'world'
-  }
+  target: document.body
 });
 
 if (process.env.NODE_ENV !== 'production') {

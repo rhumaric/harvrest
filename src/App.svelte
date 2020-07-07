@@ -9,8 +9,8 @@
   // to check if it holds an unsubscribe function
   // before calling it
   let stop = () => {};
-  let threshold = 5 * 1000;
-  let restTime = 1 * 1000;
+  let threshold = 2 * 1000;
+  let restTime = 2 * 1000;
 
   function endSession() {
     stop();
@@ -35,6 +35,11 @@
   }
   function registerTime(value) {
     elapsed = value;
+    if (rest) {
+      if (elapsed > restTime) {
+        endSession();
+      }
+    }
   }
 </script>
 
