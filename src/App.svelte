@@ -63,5 +63,9 @@
   }
 </script>
 
-<Timer {started} {rest} {elapsed} {startSession} {endSession} />
-<Settings {settings} />
+{#if started}
+  <Timer {started} {rest} {elapsed} {startSession} {endSession} />
+{:else}
+  <Settings {settings} />
+  <button on:click={startSession}>Start</button>
+{/if}
