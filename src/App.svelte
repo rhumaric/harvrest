@@ -1,5 +1,6 @@
 <script>
   import Timer from './Timer.svelte';
+  import Settings from './Settings.svelte';
   import { time } from './stores.js';
 
   let started;
@@ -15,9 +16,11 @@
 
   let threshold = Infinity;
 
-  let minActiveTime = 2 * 1000;
-  let maxActiveTime = 10 * 1000;
-  let restForMinActiveTime = 1 * 1000;
+  let settings = {
+    minActiveTime: 2,
+    maxActiveTime: 10,
+    restForMinActiveTime: 1
+  };
 
   function endSession() {
     stop();
@@ -26,7 +29,7 @@
     } else {
       restTime = elapsed;
     }
-    if (!rest && elapsed > minActiveTime) {
+    if (!rest && elapsed > settings.minActiveTime * 1000) {
       rest = true;
       startTimer();
     } else {
@@ -46,10 +49,10 @@
     stop = time().subscribe(registerTime);
     if (rest) {
       const earnedRestTime =
-        (restForMinActiveTime * activeTime) / minActiveTime;
+        (settings.restForMinActiveTime * activeTime) / settings.minActiveTime;
       threshold = earnedRestTime || Infinity;
     } else {
-      threshold = maxActiveTime || Infinity;
+      threshold = settings.maxActiveTime * 1000 || Infinity;
     }
   }
   function registerTime(value) {
@@ -61,3 +64,4 @@
 </script>
 
 <Timer {started} {rest} {elapsed} {startSession} {endSession} />
+<Settings {settings} />
