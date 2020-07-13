@@ -1,5 +1,5 @@
 <script>
-  import Timer from './Timer.svelte';
+  import Session from './Session.svelte';
   import Settings from './Settings.svelte';
   import { time } from './stores.js';
 
@@ -9,7 +9,7 @@
   // Initialize with a no-op so there's no need
   // to check if it holds an unsubscribe function
   // before calling it
-  let stop = () => {};
+  let stop = function() {};
 
   let activeTime = 0;
   let restTime = 0;
@@ -18,8 +18,13 @@
 
   let settings = {
     minActiveTime: 2,
-    maxActiveTime: 10,
+    maxActiveTime: 0,
     restForMinActiveTime: 1
+  };
+
+  let session = {
+    activeTime: 0,
+    restTime: 0
   };
 
   function endSession() {
@@ -67,14 +72,13 @@
   <h1>Harvrest</h1>
   {#if started}
     <div class="content">
-      <Timer {started} {rest} {elapsed} {startSession} />
-      <button class="content__action" on:click={endSession}>Stop</button>
+      <Session {settings} {session} on:sessionEnd={() => (started = false)} />
     </div>
   {:else}
     <form
       aria-label="Settings"
       class="content"
-      on:submit|preventDefault={startSession}>
+      on:submit|preventDefault={() => (started = true)}>
       <Settings {settings} />
       <button class="content__action">Let's go!</button>
     </form>
