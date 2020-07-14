@@ -14,7 +14,7 @@
   let rest = false;
   let threshold;
   let earnedRestTime;
-  let messages;
+  let messages = getMessages();
 
   // Initialize with a no-op so there's no need
   // to check if it holds an unsubscribe function
@@ -69,7 +69,7 @@
     if (!rest) {
       return {
         heading: `Nice work!`,
-        content: `<p>That's ${earnedRestTime}ms of rest well earned.</p>`,
+        content: `<p>That's ${earnedRestTime || 0}ms of rest well earned.</p>`,
         button: `Take a break!`
       };
     } else {
@@ -85,21 +85,22 @@
 </script>
 
 <div class="stack">
-  <div role={stopped ? 'presentation' : null}>
-    <h2 class="lead">{rest ? 'Rest' : 'Active'}</h2>
+  <div class="stack-content" aria-hidden={stopped ? 'true' : null}>
+    <h2>{rest ? 'Rest' : 'Active'}</h2>
     <Duration duration={elapsed / 1000} />
-    {#if !stopped}
-      <button class="content__action" on:click={endSession}>Stop</button>
-    {/if}
+    <button
+      class="content__action"
+      class:visibility--hidden={stopped}
+      on:click={endSession}>
+      Stop
+    </button>
   </div>
-  {#if stopped}
-    <div class="stack__veil" />
-    <div class="content stack__overlay">
-      <h2>{messages.heading}</h2>
-      {@html messages.content}
-      <button class="content__action" on:click={startSession}>
-        {messages.button}
-      </button>
-    </div>
-  {/if}
+  <div class="stack__veil" class:visibility--hidden={!stopped} />
+  <div class="content stack__overlay" class:visibility--hidden={!stopped}>
+    <h2>{messages.heading}</h2>
+    {@html messages.content}
+    <button class="content__action" on:click={startSession}>
+      {messages.button}
+    </button>
+  </div>
 </div>
