@@ -1,5 +1,6 @@
 <script>
-  import Duration from './Duration.svelte';
+  import { scale, fly } from 'svelte/transition';
+  import Timer from './Timer.svelte';
   import { time } from './stores.js';
 
   import { createEventDispatcher, onMount } from 'svelte';
@@ -85,22 +86,25 @@
 </script>
 
 <div class="stack">
-  <div class="stack-content" aria-hidden={stopped ? 'true' : null}>
-    <h2>{rest ? 'Rest' : 'Active'}</h2>
-    <Duration duration={elapsed / 1000} />
-    <button
-      class="content__action"
-      class:visibility--hidden={stopped}
-      on:click={endSession}>
-      Stop
-    </button>
-  </div>
-  <div class="stack__veil" class:visibility--hidden={!stopped} />
-  <div class="content stack__overlay" class:visibility--hidden={!stopped}>
-    <h2>{messages.heading}</h2>
-    {@html messages.content}
-    <button class="content__action" on:click={startSession}>
-      {messages.button}
-    </button>
-  </div>
+  {#if rest}
+    <div class="content" in:scale out:fly={{ duration: 0 }}>
+      <Timer
+        heading="Rest"
+        {elapsed}
+        {stopped}
+        {messages}
+        {endSession}
+        {startSession} />
+    </div>
+  {:else}
+    <div class="content" transition:scale>
+      <Timer
+        heading="Active"
+        {elapsed}
+        {stopped}
+        {messages}
+        {endSession}
+        {startSession} />
+    </div>
+  {/if}
 </div>

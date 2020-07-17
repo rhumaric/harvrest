@@ -68,12 +68,10 @@
   }
 </script>
 
-<main>
+<main class="spaced">
   <h1>Harvrest</h1>
   {#if started}
-    <div class="content">
-      <Session {settings} {session} on:sessionEnd={() => (started = false)} />
-    </div>
+    <Session {settings} {session} on:sessionEnd={() => (started = false)} />
   {:else}
     <form
       aria-label="Settings"

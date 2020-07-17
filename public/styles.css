@@ -93,13 +93,13 @@ body {
   display: inline;
 }
 
+.spaced > * + * {
+  margin-top: 1.25rem;
+}
+
 .lead {
   text-align:center;
   font-size: 1.25rem;
-}
-
-* + .content {
-  margin-top: 1.25rem;
 }
 
 .content {
@@ -115,6 +115,7 @@ body {
 
   padding: 1.5rem 2rem 3rem;
   position: relative;
+  width: 100%;
 }
 
 .content > * + * {
@@ -182,6 +183,7 @@ body {
 
 .stack > * {
   grid-area: 1/1;
+  margin: 0;
 }
 
 .stack__overlay {
