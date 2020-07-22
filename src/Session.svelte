@@ -1,5 +1,6 @@
 <script>
   import { flipHorizontally } from './transitions.js';
+  import { minutes } from './time.js';
   import Timer from './Timer.svelte';
   import { time } from './stores.js';
 
@@ -14,7 +15,7 @@
   let elapsed = 0;
   let rest = false;
   let threshold;
-  let earnedRestTime;
+  let restMinutesEarned;
   let messages = getMessages();
 
   // Initialize with a no-op so there's no need
@@ -30,7 +31,7 @@
     stop = time().subscribe(registerTime);
     stopped = false;
     if (rest) {
-      threshold = earnedRestTime || Infinity;
+      threshold = microseconds(restMinutesEarned) || Infinity;
     } else {
       threshold = settings.maxActiveTime * 1000 || Infinity;
     }
@@ -38,7 +39,7 @@
   function registerTime(value) {
     elapsed = value;
     if (elapsed > threshold) {
-      // endSession();
+      endSession();
     }
   }
 
@@ -59,9 +60,10 @@
       session.restTime = elapsed;
     } else {
       session.activeTime = elapsed;
-      earnedRestTime =
+      const earnedRestTime =
         (settings.restForMinActiveTime * session.activeTime) /
         settings.minActiveTime;
+      restMinutesEarned = Math.ceil(minutes(earnedRestTime));
     }
     messages = getMessages();
   }
@@ -70,7 +72,9 @@
     if (!rest) {
       return {
         heading: `Nice work!`,
-        content: `<p>That's ${earnedRestTime || 0}ms of rest well earned.</p>`,
+        content: `<p>That's ${restMinutesEarned} minute${
+          restMinutesEarned > 1 ? 's' : ''
+        } of rest well earned.</p>`,
         button: `Take a break!`
       };
     } else {

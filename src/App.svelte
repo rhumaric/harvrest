@@ -2,6 +2,7 @@
   import Session from './Session.svelte';
   import Settings from './Settings.svelte';
   import { time } from './stores.js';
+  import { microseconds } from './time.js';
 
   let started;
   let rest;
@@ -17,55 +18,15 @@
   let threshold = Infinity;
 
   let settings = {
-    minActiveTime: 2,
+    minActiveTime: 25,
     maxActiveTime: 0,
-    restForMinActiveTime: 1
+    restForMinActiveTime: 5
   };
 
   let session = {
     activeTime: 0,
     restTime: 0
   };
-
-  function endSession() {
-    stop();
-    if (!rest) {
-      activeTime = elapsed;
-    } else {
-      restTime = elapsed;
-    }
-    if (!rest && elapsed > settings.minActiveTime * 1000) {
-      rest = true;
-      startTimer();
-    } else {
-      started = false;
-      rest = false;
-    }
-  }
-  function startSession() {
-    started = true;
-    startTimer();
-  }
-  function startTimer() {
-    // Subscribe to the store ourselves
-    // so we can unsubscribe on our own time
-    // rather than when Svelte destroys the Duration
-    // subscription
-    stop = time().subscribe(registerTime);
-    if (rest) {
-      const earnedRestTime =
-        (settings.restForMinActiveTime * activeTime) / settings.minActiveTime;
-      threshold = earnedRestTime || Infinity;
-    } else {
-      threshold = settings.maxActiveTime * 1000 || Infinity;
-    }
-  }
-  function registerTime(value) {
-    elapsed = value;
-    if (elapsed > threshold) {
-      endSession();
-    }
-  }
 </script>
 
 <main class="spaced">
