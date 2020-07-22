@@ -7,6 +7,18 @@
   let started;
   let rest;
   let elapsed = 0;
+
+  $: {
+    if (started) {
+      if (rest) {
+        console.log('Rest');
+      } else {
+        console.log('Active');
+      }
+    } else {
+      console.log('Startup');
+    }
+  }
   // Initialize with a no-op so there's no need
   // to check if it holds an unsubscribe function
   // before calling it
