@@ -1,5 +1,5 @@
 <script>
-  import { scale, fly } from 'svelte/transition';
+  import { flipHorizontally } from './transitions.js';
   import Timer from './Timer.svelte';
   import { time } from './stores.js';
 
@@ -38,7 +38,7 @@
   function registerTime(value) {
     elapsed = value;
     if (elapsed > threshold) {
-      endSession();
+      // endSession();
     }
   }
 
@@ -83,11 +83,15 @@
   }
 
   onMount(startTimer);
+
+  const transitionDuration = 100;
 </script>
 
 <div class="stack">
   {#if rest}
-    <div class="content" in:scale out:fly={{ duration: 0 }}>
+    <div
+      class="rest content"
+      in:flipHorizontally={{ duration: transitionDuration, delay: transitionDuration, oppositeDirection: true }}>
       <Timer
         heading="Rest"
         {elapsed}
@@ -97,7 +101,9 @@
         {startSession} />
     </div>
   {:else}
-    <div class="content" transition:scale>
+    <div
+      class="active content"
+      out:flipHorizontally={{ duration: transitionDuration }}>
       <Timer
         heading="Active"
         {elapsed}
