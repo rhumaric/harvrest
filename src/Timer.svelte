@@ -1,6 +1,7 @@
 <script>
   import { tick } from 'svelte';
   import Duration from './Duration.svelte';
+  import { page } from './stores/title.js';
 
   export let stopped;
   export let heading;
@@ -12,7 +13,6 @@
   let dialogButton;
 
   $: if (stopped) {
-    console.log('Stopped changed');
     tick().then(() => {
       dialogButton.focus();
     });
@@ -21,7 +21,7 @@
 
 <div class="stack">
   <div class="stack-content" class:visibility--hidden={stopped}>
-    <h2>{heading}</h2>
+    <h2>{page(heading)}</h2>
     <Duration duration={elapsed / 1000} />
     <button class="content__action" on:click={endSession}>Stop</button>
   </div>

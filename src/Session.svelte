@@ -1,6 +1,6 @@
 <script>
   import { flipHorizontally } from './transitions.js';
-  import { minutes } from './time.js';
+  import { minutes, microseconds } from './time.js';
   import Timer from './Timer.svelte';
   import { time } from './stores.js';
 
@@ -13,7 +13,7 @@
   let stopped;
 
   let elapsed = 0;
-  let rest = false;
+  export let rest = false;
   let threshold;
   let restMinutesEarned;
   let messages = getMessages();
