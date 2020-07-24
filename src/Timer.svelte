@@ -1,7 +1,7 @@
 <script>
   import { tick } from 'svelte';
   import Duration from './Duration.svelte';
-  import { page } from './stores/title.js';
+  import { page, pagePrefix } from './stores/title.js';
 
   export let stopped;
   export let heading;
@@ -13,6 +13,7 @@
   let dialogButton;
 
   $: if (stopped) {
+    pagePrefix(messages.heading);
     tick().then(() => {
       dialogButton.focus();
     });
@@ -28,7 +29,6 @@
   <div
     role="dialog"
     aria-labelledby="dialogHeading"
-    aria-describedby="dialogDesc"
     aria-modal="true"
     class="content stack__overlay"
     class:visibility--hidden={!stopped}>
