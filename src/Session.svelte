@@ -2,7 +2,7 @@
   import { flipHorizontally } from './transitions.js';
   import { minutes, microseconds } from './time.js';
   import Timer from './Timer.svelte';
-  import { time } from './stores.js';
+  import { timer } from './stores/timer.js';
 
   import { createEventDispatcher, onMount } from 'svelte';
   const dispatch = createEventDispatcher();
@@ -12,23 +12,17 @@
 
   let stopped;
 
-  let elapsed = 0;
   export let rest = false;
   let threshold;
   let restMinutesEarned;
   let messages = getMessages();
-
-  // Initialize with a no-op so there's no need
-  // to check if it holds an unsubscribe function
-  // before calling it
-  let stop = function() {};
 
   function startTimer() {
     // Subscribe to the store ourselves
     // so we can unsubscribe on our own time
     // rather than when Svelte destroys the Duration
     // subscription
-    stop = time().subscribe(registerTime);
+    timer.start();
     stopped = false;
     if (rest) {
       threshold = microseconds(restMinutesEarned) || Infinity;
@@ -36,6 +30,7 @@
       threshold = settings.maxActiveTime * 1000 || Infinity;
     }
   }
+
   function registerTime(value) {
     elapsed = value;
     if (elapsed > threshold) {
@@ -45,6 +40,7 @@
 
   function startSession() {
     if (rest) {
+      rest = !rest;
       dispatch('sessionEnd');
     } else {
       rest = !rest;
@@ -53,13 +49,13 @@
   }
 
   function endSession() {
-    console.log('Ending session', stop);
-    stop();
+    timer.stop();
+    timer.reset();
     stopped = true;
     if (rest) {
-      session.restTime = elapsed;
+      session.restTime = $timer;
     } else {
-      session.activeTime = elapsed;
+      session.activeTime = $timer;
       const earnedRestTime =
         (settings.restForMinActiveTime * session.activeTime) /
         settings.minActiveTime;
@@ -98,7 +94,7 @@
       in:flipHorizontally={{ duration: transitionDuration, delay: transitionDuration, oppositeDirection: true }}>
       <Timer
         heading="Rest"
-        {elapsed}
+        elapsed={$timer}
         {stopped}
         {messages}
         {endSession}
@@ -110,7 +106,7 @@
       out:flipHorizontally={{ duration: transitionDuration }}>
       <Timer
         heading="Active"
-        {elapsed}
+        elapsed={$timer}
         {stopped}
         {messages}
         {endSession}
