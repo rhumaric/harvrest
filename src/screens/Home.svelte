@@ -20,9 +20,11 @@
   {:else}
     <p class="lead">Pomodoro, with a twist!</p>
     <Description {settings} />
-    <a href="#settings" on:click|preventDefault={() => (configure = true)}>
-      Configure
-    </a>
+    <p>
+      <a href="#settings" on:click|preventDefault={() => (configure = true)}>
+        Set your own times
+      </a>
+    </p>
   {/if}
   <button class="content__action">Let's go!</button>
 </form>

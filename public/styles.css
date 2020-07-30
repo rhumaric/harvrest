@@ -40,6 +40,18 @@ h1 {
   text-align: center;
 }
 
+a, a:visited {
+  color: var(--primary-light);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  color: var(--primary);
+}
+
 input {
   font: inherit;
 }
@@ -266,10 +278,10 @@ body {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  font-size: 2rem;
   font-weight: bold;
   border-radius: 0.25em;
   color: var(--primary);
+  font-size: 3rem;
 }
 
 .content .timer {
