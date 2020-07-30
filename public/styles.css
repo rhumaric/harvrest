@@ -1,7 +1,7 @@
 :root {
   --shadow-color: #e9cac3;
   --primary: #460160;
-  --primary-light: #99649a;
+  --primary-light: #91618d;
   --primary-lighter:  #a582ab;
   --primary-shadow: #bea5c0;
   --light: #f9f5ef;
@@ -44,6 +44,43 @@ input {
   font: inherit;
 }
 
+fieldset {
+  border: 0;
+  padding: 0;
+}
+
+legend {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  cursor: default;
+}
+
+input {
+  font: inherit;
+  border-top-left-radius: calc(6em / 16) 50%;
+  border-top-right-radius: calc(6em / 16) 50%;
+  border-bottom-left-radius: calc(6em / 16) 50%;
+  border-bottom-right-radius: calc(6em / 16) 50%;
+  border: solid 0.125rem;
+  font-weight:bold;
+  min-width: 0;
+  padding: 0.5rem 1rem;
+  font-variant-numeric: tabular-nums;
+  background: white;
+}
+
+[type=number]::-webkit-inner-spin-button,
+[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0; 
+}
+
+[type=number] {
+  -moz-appearance: textfield;
+}
+
 button {
   font: inherit;
   appearance: none;
@@ -72,7 +109,8 @@ body {
 }
 
 *:focus {
-  outline: solid 0.125rem var(--primary);
+  /* Should contrast OK (3:1) with both primary and light */
+  outline: solid 0.125rem var(--primary-light);
   outline-offset: 0.125rem;
 }
 
@@ -135,18 +173,90 @@ body {
   transform: translate(-50%, -50%) translateY(-0.25rem);
 }
 
+.stepper {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-gap: 0;
+  border-top-left-radius: calc(6em / 16) 50%;
+  border-top-right-radius: calc(6em / 16) 50%;
+  border-bottom-left-radius: calc(6em / 16) 50%;
+  border-bottom-right-radius: calc(6em / 16) 50%;
+  box-shadow: 0 0.25rem 0 var(--shadow-color);
+  border: solid 0.125rem white;
+}
 
+.stepper button {
+  min-width: 3.25rem;
+  position: relative;
+  z-index: 0;
+}
 
-.inline-input {
-  background: white;
-  border: solid 2px var(--primary-light);
-  border-radius: 0.25rem;
+.stepper .stepper__decrement {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+  border: 0;
+  box-shadow: none;
+}
+
+.stepper .stepper__increment {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border:0;
+  box-shadow: none;
+}
+
+.stepper input {
+  border-radius: 0;
+  border-left: 0;
+  border-right: 0;
+}
+
+.stepper > :focus {
+  z-index: 1;
+}
+.stepper > :focus-within {
+  z-index: 1;
+}
+
+.stepper--contained {
+  max-width: 14rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.clearable-input {
+  display: inline-grid;
+  grid-template-columns: 1fr auto;
+  position: relative;
+  z-index: 0;
+}
+
+.clearable-input > :focus {
+  z-index: 1;
+}
+
+.clearable-input > * {
+  grid-row: 1;
+}
+
+.clearable-input input {
+  padding-right: 0;
+  border-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  grid-column: 1/-1;  
+}
+
+.clearable-input button {
+  border-left: 0;
+  border-radius: 0;
   color: inherit;
-  text-align: right;
-  padding: 0 0.25rem;
-  width: 2.5rem;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.25;
+  background: white;
+  box-shadow: none;
+  border: solid 0.125rem;
+  border-left: 0;
+  border-right: 0;
 }
 
 .timer {

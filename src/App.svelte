@@ -56,7 +56,7 @@
       {session}
       on:sessionEnd={() => (started = false)} />
   {:else}
-    <Home {settings} bind:started action={() => (started = true)} />
+    <Home {settings} action={() => (started = true)} />
   {/if}
 </main>
 <DocumentTitle title={$title} live={$live} />
