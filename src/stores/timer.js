@@ -1,9 +1,10 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 
 export const timer = createStore();
 export const elapsed = timer.elapsed;
 export const running = timer.running;
 export const startTime = timer.startTime;
+export const breakdown = timer.breakdown;
 
 export function createStore() {
   const stores = {
@@ -20,6 +21,15 @@ export function createStore() {
     start,
     stop,
     reset,
+    breakdown: derived([stores.elapsed], ([elapsed]) => {
+      // Use the Date object to help with formatting date
+      const date = new Date(0, 0, 0, 0, 0, elapsed / 1000);
+      return {
+        seconds: date.getSeconds(),
+        minutes: date.getMinutes(),
+        hours: date.getHours()
+      };
+    }),
     elapsed: stores.elapsed,
     running: stores.running,
     startTime: stores.startTime,

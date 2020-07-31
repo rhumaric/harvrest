@@ -5,7 +5,6 @@
 
   export let stopped;
   export let heading;
-  export let elapsed;
   export let endSession;
   export let messages;
   export let startSession;
@@ -23,7 +22,7 @@
 <div class="stack">
   <div class="stack-content" class:visibility--hidden={stopped}>
     <h2>{page(heading)}</h2>
-    <Duration duration={elapsed / 1000} />
+    <Duration />
     <button class="content__action" on:click={endSession}>Stop</button>
   </div>
   <div
