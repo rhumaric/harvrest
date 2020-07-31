@@ -10,7 +10,7 @@
   export let settings;
   export let session;
 
-  let stopped;
+  export let stopped;
 
   export let rest = false;
   let threshold;
@@ -23,18 +23,10 @@
     // rather than when Svelte destroys the Duration
     // subscription
     timer.start();
-    stopped = false;
     if (rest) {
       threshold = microseconds(restMinutesEarned) || Infinity;
     } else {
       threshold = settings.maxActiveTime * 1000 || Infinity;
-    }
-  }
-
-  function registerTime(value) {
-    elapsed = value;
-    if (elapsed > threshold) {
-      endSession();
     }
   }
 
@@ -44,13 +36,14 @@
       dispatch('sessionEnd');
     } else {
       rest = !rest;
+      stopped = false;
+      timer.reset();
       startTimer();
     }
   }
 
   function endSession() {
     timer.stop();
-    timer.reset();
     stopped = true;
     if (rest) {
       session.restTime = $timer;
@@ -82,7 +75,9 @@
     }
   }
 
-  onMount(startTimer);
+  onMount(() => {
+    timer.start();
+  });
 
   const transitionDuration = 100;
 </script>

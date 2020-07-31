@@ -2,6 +2,8 @@
   import { tick } from 'svelte';
   import Duration from './Duration.svelte';
   import { page, pagePrefix } from './stores/title.js';
+  import { breakdown } from './stores/timer.js';
+  import { clock } from './time.js';
 
   export let stopped;
   export let heading;
@@ -16,6 +18,8 @@
     tick().then(() => {
       dialogButton.focus();
     });
+  } else {
+    pagePrefix(clock($breakdown));
   }
 </script>
 

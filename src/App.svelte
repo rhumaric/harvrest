@@ -8,6 +8,7 @@
 
   let started = localStorage.getItem('started') === 'true';
   let rest = localStorage.getItem('rest') === 'true';
+  let stopped = localStorage.getItem('stopped') === 'true';
 
   timer.init({
     elapsed: localStorage.getItem('elapsed'),
@@ -24,6 +25,7 @@
   $: store('running', $running);
   $: store('rest', rest);
   $: store('started', started);
+  $: store('stopped', stopped);
 
   function store(key, value) {
     if (loaded) {
@@ -52,11 +54,19 @@
   {#if started}
     <Session
       bind:rest
+      bind:stopped
       {settings}
       {session}
       on:sessionEnd={() => (started = false)} />
   {:else}
-    <Home {settings} action={() => (started = true)} />
+    <Home
+      {settings}
+      action={() => {
+        started = true;
+        stopped = false;
+        timer.reset();
+        timer.start();
+      }} />
   {/if}
 </main>
 <DocumentTitle title={$title} live={$live} />
