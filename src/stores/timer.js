@@ -1,4 +1,5 @@
-import { writable, derived } from 'svelte/store';
+import { storable, BOOLEAN } from './storable';
+import { derived, get } from 'svelte/store';
 
 export const timer = createStore();
 export const elapsed = timer.elapsed;
@@ -8,16 +9,19 @@ export const breakdown = timer.breakdown;
 
 export function createStore() {
   const stores = {
-    elapsed: writable(0),
-    running: writable(false),
-    startTime: writable()
+    elapsed: storable('elapsed', { initialValue: 0 }),
+    running: storable('running', { ...BOOLEAN }),
+    startTime: storable('startTime')
   };
 
-  let startTime;
   let interval;
+  let startTime = get(stores.startTime);
+
+  if (get(stores.running)) {
+    start();
+  }
 
   return {
-    init,
     start,
     stop,
     reset,
@@ -41,16 +45,6 @@ export function createStore() {
       };
     }
   };
-
-  function init(options) {
-    stores.startTime.set(options.startTime);
-    stores.elapsed.set(options.elapsed);
-    startTime = options.startTime;
-    stores.running.set(options.running);
-    if (options.running) {
-      start();
-    }
-  }
 
   function start() {
     if (!startTime) {

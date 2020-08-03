@@ -2,6 +2,12 @@
   import { flipHorizontally } from './transitions.js';
   import { minutes, microseconds } from './time.js';
   import Timer from './Timer.svelte';
+  import {
+    rest,
+    activeStopped,
+    restStopped,
+    restMinutesEarned
+  } from './stores';
   import { timer } from './stores/timer.js';
 
   import { createEventDispatcher, onMount } from 'svelte';
@@ -10,12 +16,7 @@
   export let settings;
   export let session;
 
-  export let stopped;
-
-  export let rest = false;
   let threshold;
-  let restMinutesEarned;
-  let messages = getMessages();
 
   function startTimer() {
     // Subscribe to the store ourselves
@@ -23,20 +24,21 @@
     // rather than when Svelte destroys the Duration
     // subscription
     timer.start();
-    if (rest) {
-      threshold = microseconds(restMinutesEarned) || Infinity;
+    if ($rest) {
+      threshold = microseconds($restMinutesEarned) || Infinity;
     } else {
-      threshold = settings.maxActiveTime * 1000 || Infinity;
+      threshold = microseconds(settings.maxActiveTime) || microseconds(1);
     }
   }
 
   function startSession() {
-    if (rest) {
-      rest = !rest;
+    if ($rest) {
+      console.log('Finishing rest');
+      $rest = !$rest;
       dispatch('sessionEnd');
     } else {
-      rest = !rest;
-      stopped = false;
+      console.log('Starting rest');
+      $rest = !$rest;
       timer.reset();
       startTimer();
     }
@@ -44,54 +46,32 @@
 
   function endSession() {
     timer.stop();
-    stopped = true;
-    if (rest) {
+
+    if ($rest) {
+      $restStopped = true;
       session.restTime = $timer;
     } else {
+      $activeStopped = true;
       session.activeTime = $timer;
       const earnedRestTime =
         (settings.restForMinActiveTime * session.activeTime) /
         settings.minActiveTime;
-      restMinutesEarned = Math.ceil(minutes(earnedRestTime));
-    }
-    messages = getMessages();
-  }
-
-  function getMessages() {
-    if (!rest) {
-      return {
-        heading: `Nice work!`,
-        content: `<p>That's ${restMinutesEarned} minute${
-          restMinutesEarned > 1 ? 's' : ''
-        } of rest well earned.</p>`,
-        button: `Take a break!`
-      };
-    } else {
-      return {
-        heading: `Time's up!`,
-        content: `<p>It's time to get back at it!</p>`,
-        button: `Let's go!`
-      };
+      $restMinutesEarned = Math.ceil(minutes(earnedRestTime));
     }
   }
-
-  onMount(() => {
-    timer.start();
-  });
 
   const transitionDuration = 100;
 </script>
 
 <div class="stack">
-  {#if rest}
+  {#if $rest}
     <div
       class="rest content"
       in:flipHorizontally={{ duration: transitionDuration, delay: transitionDuration, oppositeDirection: true }}>
       <Timer
         heading="Rest"
         elapsed={$timer}
-        {stopped}
-        {messages}
+        stopped={$restStopped}
         {endSession}
         {startSession} />
     </div>
@@ -102,8 +82,7 @@
       <Timer
         heading="Active"
         elapsed={$timer}
-        {stopped}
-        {messages}
+        stopped={$activeStopped}
         {endSession}
         {startSession} />
     </div>
