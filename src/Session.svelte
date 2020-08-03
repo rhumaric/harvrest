@@ -1,4 +1,5 @@
 <script>
+  import { derived } from 'svelte/store';
   import { flipHorizontally } from './transitions.js';
   import { minutes, microseconds } from './time.js';
   import Timer from './Timer.svelte';
@@ -6,29 +7,30 @@
     rest,
     activeStopped,
     restStopped,
-    restMinutesEarned
+    restMinutesEarned,
+    notified
   } from './stores';
   import { timer } from './stores/timer.js';
 
-  import { createEventDispatcher, onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
   export let settings;
   export let session;
 
-  let threshold;
-
-  function startTimer() {
-    // Subscribe to the store ourselves
-    // so we can unsubscribe on our own time
-    // rather than when Svelte destroys the Duration
-    // subscription
-    timer.start();
-    if ($rest) {
-      threshold = microseconds($restMinutesEarned) || Infinity;
-    } else {
-      threshold = microseconds(settings.maxActiveTime) || microseconds(1);
+  const threshold = derived(
+    [rest, restMinutesEarned],
+    ([rest, restMinutesEarned]) => {
+      if (rest) {
+        return microseconds(restMinutesEarned) || Infinity;
+      } else {
+        return microseconds(settings.maxActiveTime) || microseconds(1);
+      }
     }
+  );
+  $: if (!$notified && $timer > $threshold) {
+    console.log('Notifying');
+    $notified = true;
   }
 
   function startSession() {
@@ -40,8 +42,9 @@
       console.log('Starting rest');
       $rest = !$rest;
       timer.reset();
-      startTimer();
+      timer.start();
     }
+    $notified = false;
   }
 
   function endSession() {
@@ -70,6 +73,7 @@
       in:flipHorizontally={{ duration: transitionDuration, delay: transitionDuration, oppositeDirection: true }}>
       <Timer
         heading="Rest"
+        threshold={$threshold}
         elapsed={$timer}
         stopped={$restStopped}
         {endSession}
@@ -81,6 +85,7 @@
       out:flipHorizontally={{ duration: transitionDuration }}>
       <Timer
         heading="Active"
+        threshold={$threshold}
         elapsed={$timer}
         stopped={$activeStopped}
         {endSession}

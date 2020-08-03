@@ -5,6 +5,7 @@ export const started = storable('started', { ...BOOLEAN });
 export const rest = storable('rest', { ...BOOLEAN });
 export const activeStopped = storable('activeStopped', { ...BOOLEAN });
 export const restStopped = storable('restStopped', { ...BOOLEAN });
+export const notified = storable('notified', { ...BOOLEAN });
 export const restMinutesEarned = storable('restMinutesEarned');
 
 export const messages = derived(

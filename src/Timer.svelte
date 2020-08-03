@@ -2,7 +2,7 @@
   import { tick } from 'svelte';
   import Duration from './Duration.svelte';
   import { page, pagePrefix } from './stores/title.js';
-  import { breakdown } from './stores/timer.js';
+  import { timer, breakdown } from './stores/timer.js';
   import { messages } from './stores';
   import { clock } from './time.js';
 

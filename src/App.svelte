@@ -4,7 +4,13 @@
   import DocumentTitle from './DocumentTitle.svelte';
   import { title, live } from './stores/title.js';
   import { tick } from 'svelte';
-  import { started, activeStopped, restStopped, rest } from './stores';
+  import {
+    started,
+    activeStopped,
+    restStopped,
+    rest,
+    notified
+  } from './stores';
   import { timer } from './stores/timer.js';
 
   let settings = {
@@ -31,6 +37,7 @@
         $activeStopped = false;
         $restStopped = false;
         $rest = false;
+        $notified = false;
         timer.reset();
         timer.start();
       }} />
