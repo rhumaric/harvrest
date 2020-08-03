@@ -35,7 +35,7 @@ export function clock({ hours, minutes, seconds }) {
 }
 
 export function datetimeAttribute({ hours, minutes, seconds }) {
-  return `T${hours || 0}H${minutes || 0}M${seconds || 0}S`;
+  return `PT${hours || 0}H${minutes || 0}M${seconds || 0}S`;
 }
 
 export function padTime(value) {
