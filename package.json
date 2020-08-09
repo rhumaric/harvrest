@@ -46,6 +46,7 @@
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-svelte3": "^2.7.3",
     "express": "^4.17.1",
+    "file-loader": "^6.0.0",
     "husky": "^3.1.0",
     "lint-staged": "^9.5.0",
     "lodash": "^4.17.19",

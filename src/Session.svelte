@@ -3,6 +3,7 @@
   import { flipHorizontally } from './transitions.js';
   import { minutes, microseconds } from './time.js';
   import Timer from './Timer.svelte';
+  import url from './audio/bells-multiple.mp3';
   import {
     rest,
     activeStopped,
@@ -29,8 +30,27 @@
     }
   );
   $: if (!$notified && $timer > $threshold) {
-    console.log('Notifying');
+    const audio = new Audio(url);
+    audio.loop = false;
+    audio.addEventListener('canplaythrough', () => {
+      unlessEventWithin('play', audio, 100, function() {
+        console.log('Could not start playing');
+      });
+      audio.play();
+      // Needs to be here to sync' with the start of the audio
+      if (window.navigator.vibrate) {
+        window.navigator.vibrate([200, 100, 200]);
+      }
+    });
+
     $notified = true;
+  }
+
+  function unlessEventWithin(eventName, target, delay, callback) {
+    const timeout = setTimeout(callback, delay);
+    target.addEventListener(eventName, () => clearTimeout(timeout), {
+      once: true
+    });
   }
 
   function startSession() {

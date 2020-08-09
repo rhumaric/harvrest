@@ -250,6 +250,8 @@ body {
 
 .clearable-input > * {
   grid-row: 1;
+  width: auto;
+  min-width: 0;
 }
 
 .clearable-input input {
