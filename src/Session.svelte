@@ -3,13 +3,13 @@
   import { flipHorizontally } from './transitions.js';
   import { minutes, microseconds } from './time.js';
   import Timer from './Timer.svelte';
-  import url from './audio/bells-multiple.mp3';
   import {
     rest,
     activeStopped,
     restStopped,
     restMinutesEarned,
-    notified
+    thresholdNotified,
+    endNotified
   } from './stores';
   import { timer } from './stores/timer.js';
 
@@ -19,52 +19,34 @@
   export let settings;
   export let session;
 
-  const threshold = derived(
+  const threshold = derived([rest], ([rest]) => {
+    if (!rest) {
+      return microseconds(settings.minActiveTime);
+    }
+  });
+
+  const end = derived(
     [rest, restMinutesEarned],
     ([rest, restMinutesEarned]) => {
       if (rest) {
         return microseconds(restMinutesEarned) || Infinity;
       } else {
-        return microseconds(settings.maxActiveTime) || microseconds(1);
+        return microseconds(settings.maxActiveTime) || Infinity;
       }
     }
   );
-  $: if (!$notified && $timer > $threshold) {
-    const audio = new Audio(url);
-    audio.loop = false;
-    audio.addEventListener('canplaythrough', () => {
-      unlessEventWithin('play', audio, 100, function() {
-        console.log('Could not start playing');
-      });
-      audio.play();
-      // Needs to be here to sync' with the start of the audio
-      if (window.navigator.vibrate) {
-        window.navigator.vibrate([200, 100, 200]);
-      }
-    });
-
-    $notified = true;
-  }
-
-  function unlessEventWithin(eventName, target, delay, callback) {
-    const timeout = setTimeout(callback, delay);
-    target.addEventListener(eventName, () => clearTimeout(timeout), {
-      once: true
-    });
-  }
 
   function startSession() {
     if ($rest) {
-      console.log('Finishing rest');
       $rest = !$rest;
       dispatch('sessionEnd');
     } else {
-      console.log('Starting rest');
       $rest = !$rest;
       timer.reset();
       timer.start();
     }
-    $notified = false;
+    $thresholdNotified = false;
+    $endNotified = false;
   }
 
   function endSession() {
@@ -94,6 +76,7 @@
       <Timer
         heading="Rest"
         threshold={$threshold}
+        end={$end}
         elapsed={$timer}
         stopped={$restStopped}
         {endSession}
@@ -106,6 +89,7 @@
       <Timer
         heading="Active"
         threshold={$threshold}
+        end={$end}
         elapsed={$timer}
         stopped={$activeStopped}
         {endSession}

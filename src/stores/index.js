@@ -5,7 +5,6 @@ export const started = storable('started', { ...AS_BOOLEAN });
 export const rest = storable('rest', { ...AS_BOOLEAN });
 export const activeStopped = storable('activeStopped', { ...AS_BOOLEAN });
 export const restStopped = storable('restStopped', { ...AS_BOOLEAN });
-export const notified = storable('notified', { ...AS_BOOLEAN });
 export const restMinutesEarned = storable('restMinutesEarned');
 
 export const notificationsSettings = storable('notificationsSettings', {
@@ -22,6 +21,11 @@ export const notificationsSettings = storable('notificationsSettings', {
     }
   }
 });
+
+export const thresholdNotified = storable('thresholdNotified', {
+  ...AS_BOOLEAN
+});
+export const endNotified = storable('endNotified', { ...AS_BOOLEAN });
 
 export const messages = derived(
   [rest, restMinutesEarned],

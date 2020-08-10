@@ -42,7 +42,7 @@
     <Notifications {settings} />
   {:else if isSettings}
     <div>
-      <a class="back-link" href="#">Back</a>
+      <a class="back-link" href="#/">Back</a>
       <h1>Settings</h1>
     </div>
     <div class="text-align--center column column--medium spaced">

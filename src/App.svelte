@@ -9,7 +9,8 @@
     activeStopped,
     restStopped,
     rest,
-    notified
+    endNotified,
+    thresholdNotified
   } from './stores';
   import { timer } from './stores/timer.js';
 
@@ -37,7 +38,8 @@
         $activeStopped = false;
         $restStopped = false;
         $rest = false;
-        $notified = false;
+        $thresholdNotified = false;
+        $endNotified = false;
         timer.reset();
         timer.start();
       }} />

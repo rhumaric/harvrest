@@ -1,6 +1,7 @@
 <script>
   import { tick } from 'svelte';
   import Duration from './Duration.svelte';
+  import Notifications from './Notifications.svelte';
   import { page, pagePrefix } from './stores/title.js';
   import { timer, breakdown } from './stores/timer.js';
   import { messages } from './stores';
@@ -8,6 +9,8 @@
 
   export let stopped;
   export let heading;
+  export let end;
+  export let threshold;
   export let endSession;
   export let startSession;
 
@@ -23,6 +26,7 @@
   }
 </script>
 
+<Notifications {threshold} {end} />
 <div class="stack">
   <div class="stack-content" class:visibility--hidden={stopped}>
     <h2>{page(heading)}</h2>
