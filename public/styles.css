@@ -205,9 +205,13 @@ body {
 
   line-height: 1.6;
 
-  padding: 1.5rem 2rem 4rem;
+  padding: 2.25rem 2rem 4rem;
   position: relative;
   width: 100%;
+}
+
+.content--copy-last {
+  padding-bottom: 3rem;
 }
 
 .content > * + * {
@@ -471,6 +475,12 @@ body {
 
 .checkbox :focus:not(:-moz-focusring) + label::before {
   outline: none;
+}
+
+.back-link {
+  position: absolute;
+  bottom: 100%;
+  margin-bottom: 0.5rem;
 }
 
 .margin-after + * {

@@ -26,15 +26,25 @@
       window.removeEventListener('hashchange', updateHash);
     };
   });
+
+  let isSettings;
+  $: isSettings = /#\/settings/.test(hash);
 </script>
 
-<form aria-label="Settings" class="content" on:submit|preventDefault={onSubmit}>
+<form
+  aria-label="Settings"
+  class:content--copy-last={!isSettings}
+  class="content"
+  on:submit|preventDefault={onSubmit}>
   {#if hash === '#/settings/timings'}
     <Timings {settings} />
   {:else if hash === '#/settings/notifications'}
     <Notifications {settings} />
-  {:else if /#\/settings/.test(hash)}
-    <h1>Settings</h1>
+  {:else if isSettings}
+    <div>
+      <a class="back-link" href="#">Back</a>
+      <h1>Settings</h1>
+    </div>
     <div class="text-align--center column column--medium spaced">
       <a
         class="button button--secondary button--low"
@@ -52,8 +62,8 @@
   {:else}
     <h1>Pomodoro, with a twist!</h1>
     <Description {settings} />
-    <p>
-      <a href="#/settings">Set your own times</a>
+    <p class="text-align--center">
+      <a href="#/settings">Settings</a>
     </p>
   {/if}
   <button class="content__action">Let's go!</button>

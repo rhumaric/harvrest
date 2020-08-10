@@ -8,7 +8,10 @@
   };
 </script>
 
-<h1>Timings</h1>
+<div>
+  <a class="back-link" href="#/settings">Back</a>
+  <h1>Timings</h1>
+</div>
 <div class="column column--medium spaced">
   <Field
     bind:value={settings.minActiveTime}

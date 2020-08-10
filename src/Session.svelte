@@ -89,7 +89,7 @@
 <div class="stack">
   {#if $rest}
     <div
-      class="rest content"
+      class="rest content content--copy-last"
       in:flipHorizontally={{ duration: transitionDuration, delay: transitionDuration, oppositeDirection: true }}>
       <Timer
         heading="Rest"
@@ -101,7 +101,7 @@
     </div>
   {:else}
     <div
-      class="active content"
+      class="active content content--copy-last"
       out:flipHorizontally={{ duration: transitionDuration }}>
       <Timer
         heading="Active"
