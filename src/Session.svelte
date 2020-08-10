@@ -41,6 +41,7 @@
       $rest = !$rest;
       dispatch('sessionEnd');
     } else {
+      console.log('Starting rest');
       $rest = !$rest;
       timer.reset();
       timer.start();

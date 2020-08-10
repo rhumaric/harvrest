@@ -38,11 +38,7 @@ export function createStore() {
     running: stores.running,
     startTime: stores.startTime,
     subscribe(fn) {
-      const unsubscribe = stores.elapsed.subscribe(fn);
-      return function() {
-        unsubscribe();
-        stop();
-      };
+      return stores.elapsed.subscribe(fn);
     }
   };
 
