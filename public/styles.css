@@ -2,7 +2,9 @@
   --shadow-color: #e9cac3;
   --primary: #460160;
   --primary-light: #91618d;
-  --primary-lighter:  #a582ab;
+  --primary-lighter:  #a582ab; /* Poss. better accessibility with: #ac87b2 */ 
+  --primary-tint-25: #744088; /* Poss. better accessibility with: #613572 */
+  --primary-tint-75: #d0bfd7;
   --primary-shadow: #bea5c0;
   --light: #f9f5ef;
   --secondary: #fbe1ce;
@@ -93,7 +95,9 @@ input {
   -moz-appearance: textfield;
 }
 
-button {
+button,
+.button {
+  display: inline-block;
   font: inherit;
   appearance: none;
   border-top-left-radius: calc(6em / 16) 50%;
@@ -108,10 +112,28 @@ button {
   text-transform: uppercase;
   box-shadow: 0 0.25rem 0 var(--shadow-color);
   cursor: pointer;
+  text-decoration: none;
 }
 
-button:hover {
+.button--secondary,
+.button--secondary:visited {
+  background: var(--light);
+  color: var(--primary);
+  border:solid 0.125rem currentColor;
+}
+
+.button--low {
+  box-shadow: 0 0.125rem 0 var(--shadow-color);
+}
+
+button:hover,
+.button:hover {
   text-decoration: underline;
+}
+
+button:active,
+.button:active {
+  box-shadow: 0;
 }
 
 body {
@@ -147,6 +169,25 @@ body {
   margin-top: 1.25rem;
 }
 
+.spaced--small > * + * {
+  margin-top: 0.5rem;
+}
+
+.column > * {
+  display: block;
+  max-width: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.column--medium > * {
+  max-width: 15rem;
+}
+
+.text-align--center {
+  text-align: center;
+}
+
 .lead {
   text-align:center;
   font-size: 1.25rem;
@@ -163,7 +204,7 @@ body {
   font-size: 1.125rem;
   line-height: 1.75;
 
-  padding: 1.5rem 2rem 3rem;
+  padding: 1.5rem 2rem 4rem;
   position: relative;
   width: 100%;
 }
@@ -340,4 +381,123 @@ body {
 
 .visibility--hidden {
   visibility: hidden;
+}
+
+.checkbox {
+  position: relative;
+}
+
+.checkbox input {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.checkbox label {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox label::before {
+  content: '';
+  width: 1.6em;
+  height: 1.5em;
+  font-size: 0.8em;
+  margin-right: 0.65em;
+  border-top-left-radius: 6px 50%;
+  border-bottom-left-radius: 6px 50%;
+  border-top-right-radius: 6px 50%;
+  border-bottom-right-radius: 6px 50%;
+  border: solid 0.125rem var(--primary);
+  background: white;
+  box-shadow: 0 0.125rem 0 0 var(--shadow-color);
+  position: relative;
+  top: -0.0625rem;
+}
+
+.checkbox label::after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 0.0625rem);
+  left: 0.75em;
+  font-size: 0.8em;
+  transform: translate(-50%, -50%) translate(0.1875em, -0.125em)
+    rotate(-45deg);
+  border-bottom: solid 0.25em white;
+  border-left: solid 0.25em white;
+  border-bottom-left-radius: 0.125em;
+  height: 0.375em;
+  width: 0.75em;
+  opacity: 0;
+}
+
+.checkbox :checked + label::before {
+  background: var(--primary);
+}
+
+.checkbox :checked + label::after {
+  opacity: 1;
+}
+
+@media not all and (hover: none) {
+  .checkbox :hover + label::before,
+  .checkbox label:hover::before {
+    background: var(--primary-tint-75);
+  }
+
+  .checkbox :hover + label::after,
+  .checkbox label:hover::after {
+    opacity: 0.25;
+  }
+
+  .checkbox :checked:hover + label::before,
+  .checkbox :checked label:hover::before {
+    background: var(--primary-tint-25);
+  }
+
+  .checkbox :checked:hover + label::after,
+  .checkbox :checked label:hover::after {
+    opacity: 0.75;
+  }
+}
+
+.checkbox :focus + label::before {
+  outline: solid 0.125rem var(--primary-light);
+  outline-offset: 0.125rem;
+}
+
+.checkbox :focus:not(:-moz-focusring) + label::before {
+  outline: none;
+}
+
+.margin-after + * {
+  margin-top: 1.25rem;
+}
+
+.title-with-side-lines{
+  display: flex;
+  width: 100%;
+  text-align: center;
+}
+
+.title-with-side-lines > span {
+  flex: none;
+}
+
+.title-with-side-lines::before,
+.title-with-side-lines::after{
+  content: '';
+  display: block;
+  width: 1%;
+  flex: auto;
+  background: linear-gradient(var(--shadow-color), var(--shadow-color));
+  background-repeat: no-repeat;
+  background-size: calc(100% - 1rem) 2px;
+  background-position: 0 50%;
+}
+
+.title-with-side-lines::after {
+  background-position: right 0 top 50%;
 }

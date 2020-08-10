@@ -34,8 +34,18 @@ export function storable(
   }
 }
 
-export const BOOLEAN = {
+export const AS_BOOLEAN = {
   read(value) {
     return value === 'true';
+  }
+};
+
+export const AS_JSON = {
+  read(value) {
+    return JSON.parse(value);
+  },
+  write(value) {
+    console.log('Writing', value);
+    return JSON.stringify(value);
   }
 };

@@ -1,12 +1,27 @@
 import { derived } from 'svelte/store';
-import { storable, BOOLEAN } from './storable';
+import { storable, AS_BOOLEAN, AS_JSON } from './storable';
 
-export const started = storable('started', { ...BOOLEAN });
-export const rest = storable('rest', { ...BOOLEAN });
-export const activeStopped = storable('activeStopped', { ...BOOLEAN });
-export const restStopped = storable('restStopped', { ...BOOLEAN });
-export const notified = storable('notified', { ...BOOLEAN });
+export const started = storable('started', { ...AS_BOOLEAN });
+export const rest = storable('rest', { ...AS_BOOLEAN });
+export const activeStopped = storable('activeStopped', { ...AS_BOOLEAN });
+export const restStopped = storable('restStopped', { ...AS_BOOLEAN });
+export const notified = storable('notified', { ...AS_BOOLEAN });
 export const restMinutesEarned = storable('restMinutesEarned');
+
+export const notificationsSettings = storable('notificationsSettings', {
+  ...AS_JSON,
+  initialValue: {
+    threshold: {
+      visual: true,
+      audio: true,
+      vibration: true
+    },
+    end: {
+      audio: true,
+      vibration: true
+    }
+  }
+});
 
 export const messages = derived(
   [rest, restMinutesEarned],

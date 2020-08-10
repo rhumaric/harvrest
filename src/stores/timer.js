@@ -1,4 +1,4 @@
-import { storable, BOOLEAN } from './storable';
+import { storable, AS_BOOLEAN } from './storable';
 import { derived, get } from 'svelte/store';
 
 export const timer = createStore();
@@ -10,7 +10,7 @@ export const breakdown = timer.breakdown;
 export function createStore() {
   const stores = {
     elapsed: storable('elapsed', { initialValue: 0 }),
-    running: storable('running', { ...BOOLEAN }),
+    running: storable('running', { ...AS_BOOLEAN }),
     startTime: storable('startTime')
   };
 

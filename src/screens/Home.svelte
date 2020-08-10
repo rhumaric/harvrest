@@ -1,7 +1,8 @@
 <script>
-  import Description from './Home/Description';
   import { onMount } from 'svelte';
-  import Settings from '../Settings.svelte';
+  import Description from './Home/Description';
+  import Timings from './Home/Timings.svelte';
+  import Notifications from './Home/Notifications.svelte';
   import { page } from '../stores/title.js';
 
   export let settings;
@@ -28,10 +29,28 @@
 </script>
 
 <form aria-label="Settings" class="content" on:submit|preventDefault={onSubmit}>
-  {#if hash === '#/settings'}
-    <Settings {settings} />
+  {#if hash === '#/settings/timings'}
+    <Timings {settings} />
+  {:else if hash === '#/settings/notifications'}
+    <Notifications {settings} />
+  {:else if /#\/settings/.test(hash)}
+    <h1>Settings</h1>
+    <div class="text-align--center column column--medium spaced">
+      <a
+        class="button button--secondary button--low"
+        href="#/settings/timings"
+        draggable="false">
+        Timings
+      </a>
+      <a
+        class="button button--secondary button--low"
+        href="#/settings/notifications"
+        draggable="false">
+        Notifications
+      </a>
+    </div>
   {:else}
-    <p class="lead">Pomodoro, with a twist!</p>
+    <h1>Pomodoro, with a twist!</h1>
     <Description {settings} />
     <p>
       <a href="#/settings">Set your own times</a>
