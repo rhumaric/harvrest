@@ -11,7 +11,7 @@
   export let end;
 </script>
 
-{#if threshold && Number.isFinite(threshold)}
+{#if threshold && Number.isFinite(threshold) && threshold !== end}
   <Notification
     url={thresholdUrl}
     trigger={threshold}
