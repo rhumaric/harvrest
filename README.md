@@ -8,4 +8,6 @@ Durations and number of sessions (for blocks and total) are configurable.
 Audio
 ---
 
-[Bell sound by danrobinsondesignsgmailcom](https://freesound.org/people/danarobinsondesignsgmailcom/sounds/377639/)
+Sounds by Joao Janz:
+- https://freesound.org/people/Joao_Janz/sounds/482653/
+- https://freesound.org/people/Joao_Janz/sounds/504784/

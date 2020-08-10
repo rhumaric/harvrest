@@ -1,9 +1,9 @@
 <script>
   import { timer } from './stores/timer.js';
-  import url from './audio/bells-multiple.mp3';
   export let trigger;
   export let notifiedStore;
   export let settings;
+  export let url;
 
   $: if (!$notifiedStore && $timer >= trigger) {
     const audio = new Audio(url);
