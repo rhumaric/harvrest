@@ -15,9 +15,9 @@
   import { timer } from './stores/timer.js';
 
   let settings = {
-    minActiveTime: 25,
-    maxActiveTime: 0,
-    restForMinActiveTime: 5
+    minActiveTime: 5 / 60,
+    maxActiveTime: 10 / 60,
+    restForMinActiveTime: 5 / 60
   };
 
   let session = {

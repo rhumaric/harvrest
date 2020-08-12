@@ -46,8 +46,6 @@
       timer.reset();
       timer.start();
     }
-    $thresholdNotified = false;
-    $endNotified = false;
   }
 
   function endSession() {
@@ -64,6 +62,8 @@
         settings.minActiveTime;
       $restMinutesEarned = Math.ceil(minutes(earnedRestTime));
     }
+    $thresholdNotified = false;
+    $endNotified = false;
   }
 
   const transitionDuration = 100;
@@ -76,8 +76,8 @@
       in:flipHorizontally={{ duration: transitionDuration, delay: transitionDuration, oppositeDirection: true }}>
       <Timer
         heading="Rest"
-        threshold={$threshold}
-        end={$end}
+        {threshold}
+        {end}
         elapsed={$timer}
         stopped={$restStopped}
         {endSession}
@@ -89,8 +89,8 @@
       out:flipHorizontally={{ duration: transitionDuration }}>
       <Timer
         heading="Active"
-        threshold={$threshold}
-        end={$end}
+        {threshold}
+        {end}
         elapsed={$timer}
         stopped={$activeStopped}
         {endSession}

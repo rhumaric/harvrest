@@ -1,11 +1,10 @@
 <script>
+  import { afterUpdate } from 'svelte';
   import { timer } from './stores/timer.js';
-  export let trigger;
-  export let notifiedStore;
   export let settings;
   export let url;
 
-  $: if (!$notifiedStore && $timer >= trigger) {
+  afterUpdate(() => {
     const audio = new Audio(url);
     audio.loop = false;
     audio.addEventListener('canplaythrough', () => {
@@ -22,9 +21,7 @@
         }
       }
     });
-
-    $notifiedStore = true;
-  }
+  });
 
   function unlessEventWithin(eventName, target, delay, callback) {
     const timeout = setTimeout(callback, delay);

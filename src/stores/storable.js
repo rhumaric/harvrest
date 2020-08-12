@@ -45,7 +45,6 @@ export const AS_JSON = {
     return JSON.parse(value);
   },
   write(value) {
-    console.log('Writing', value);
     return JSON.stringify(value);
   }
 };
