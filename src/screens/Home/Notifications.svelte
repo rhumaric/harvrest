@@ -10,9 +10,7 @@
 <div class="column column--medium spaced">
   <fieldset>
     <legend class="margin-after">
-      <span class="title-with-side-lines">
-        <span>Threshold</span>
-      </span>
+      <span class="title-with-side-lines"> <span>Threshold</span> </span>
     </legend>
     <div class="spaced--small">
       <Checkbox
@@ -31,9 +29,7 @@
   </fieldset>
   <fieldset>
     <legend class="margin-after">
-      <span class="title-with-side-lines">
-        <span>End</span>
-      </span>
+      <span class="title-with-side-lines"> <span>End</span> </span>
     </legend>
     <div class="spaced--small">
       <Checkbox

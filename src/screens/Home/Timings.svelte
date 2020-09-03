@@ -26,9 +26,7 @@
 
   <fieldset>
     <legend class="margin-after">
-      <span class="title-with-side-lines">
-        <span>Limits</span>
-      </span>
+      <span class="title-with-side-lines"> <span>Limits</span> </span>
     </legend>
     <Field
       bind:value={settings.maxActiveTime}

@@ -62,9 +62,7 @@
   {:else}
     <h1>Pomodoro, with a twist!</h1>
     <Description {settings} />
-    <p class="text-align--center">
-      <a href="#/settings">Settings</a>
-    </p>
+    <p class="text-align--center"><a href="#/settings">Settings</a></p>
   {/if}
   <button class="content__action">Let's go!</button>
 </form>

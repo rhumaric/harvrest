@@ -3,7 +3,6 @@
   import Home from './screens/Home.svelte';
   import DocumentTitle from './DocumentTitle.svelte';
   import { title, live } from './stores/title.js';
-  import { tick } from 'svelte';
   import {
     started,
     activeStopped,

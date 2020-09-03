@@ -1,6 +1,5 @@
 <script>
   import { afterUpdate } from 'svelte';
-  import { timer } from './stores/timer.js';
   export let settings;
   export let url;
 
