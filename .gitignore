@@ -63,5 +63,5 @@ typings/
 # Documentation output
 /docs
 
-/public/bundle*
+/public/build
 /public/fonts

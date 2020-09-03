@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import Description from './Home/Description';
+  import Description from './Home/Description.svelte';
   import Timings from './Home/Timings.svelte';
   import Notifications from './Home/Notifications.svelte';
   import { page } from '../stores/title.js';
