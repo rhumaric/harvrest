@@ -3,7 +3,6 @@
   export let settings;
 
   const fieldProps = {
-    labelProps: { class: 'd-block' },
     inputProps: { size: 2, type: 'number' }
   };
 </script>

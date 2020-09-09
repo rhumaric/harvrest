@@ -39,7 +39,7 @@
   {#if hash === '#/settings/timings'}
     <Timings {settings} />
   {:else if hash === '#/settings/notifications'}
-    <Notifications {settings} />
+    <Notifications />
   {:else if isSettings}
     <div>
       <a class="back-link" href="#/">Back</a>

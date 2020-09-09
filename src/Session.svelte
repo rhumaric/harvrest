@@ -78,7 +78,6 @@
         heading="Rest"
         {threshold}
         {end}
-        elapsed={$timer}
         stopped={$restStopped}
         {endSession}
         {startSession} />
@@ -91,7 +90,6 @@
         heading="Active"
         {threshold}
         {end}
-        elapsed={$timer}
         stopped={$activeStopped}
         {endSession}
         {startSession} />

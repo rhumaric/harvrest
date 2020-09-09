@@ -1,7 +1,7 @@
 <script>
   import { afterUpdate } from 'svelte';
 
-  export let previousTitle;
+  let previousTitle;
   export let title;
   export let live;
 
@@ -18,6 +18,12 @@
   });
 </script>
 
+<svelte:head>
+  <title>{title}</title>
+</svelte:head>
+
+<div aria-live="assertive" bind:this={announcer} />
+
 <style>
   div {
     position: absolute !important;
@@ -31,9 +37,3 @@
     border: 0 !important;
   }
 </style>
-
-<svelte:head>
-  <title>{title}</title>
-</svelte:head>
-
-<div aria-live="assertive" bind:this={announcer} />
