@@ -1,6 +1,7 @@
 import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
 import url from '@rollup/plugin-url';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
@@ -50,6 +51,9 @@ export default {
         css.write('bundle.css');
       }
     }),
+    replace({
+      'process.env.NODE_ENV': production ? '"production"' : '"development"'
+    }),
 
     // If you have external dependencies installed from
     // npm, you'll most likely need these plugins. In
@@ -62,6 +66,7 @@ export default {
     }),
     commonjs(),
     url({
+      publicPath: 'build/',
       include: ['**/*.mp3', '**/*.svg']
     }),
 
