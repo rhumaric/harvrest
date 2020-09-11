@@ -12,7 +12,6 @@ export function microseconds(minutes) {
 }
 
 export function humanize({ hours, minutes, seconds }) {
-  console.log('Formatting date');
   const parts = [];
   if (hours) {
     parts.push(`${hours} hours`);

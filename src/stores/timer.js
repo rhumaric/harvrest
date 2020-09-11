@@ -34,7 +34,6 @@ export function createStore() {
     [stores.elapsed, stores.accumulated],
     ([elapsed, accumulated]) => {
       const time = elapsed + accumulated;
-      console.log('Time', time);
       return time;
     }
   );
@@ -68,16 +67,17 @@ export function createStore() {
 
   function updateTime() {
     const elapsed = Date.now() - startTime;
-    console.log('Elapsed', elapsed);
     stores.elapsed.set(elapsed);
   }
 
   function pause() {
     if (get(stores.running)) {
-      stores.accumulated.set(get(stores.accumulated) + get(stores.elapsed));
-      stores.startTime.set();
       startTime = null;
+      stores.startTime.set();
+
+      let elapsed = get(stores.elapsed);
       stores.elapsed.set(0);
+      stores.accumulated.set(get(stores.accumulated) + elapsed);
       stop();
     }
   }
@@ -90,10 +90,12 @@ export function createStore() {
   }
 
   function stop() {
-    stores.running.set(false);
-    if (interval) {
-      clearInterval(interval);
-      interval = null;
+    if (get(stores.running)) {
+      stores.running.set(false);
+      if (interval) {
+        clearInterval(interval);
+        interval = null;
+      }
     }
   }
 }

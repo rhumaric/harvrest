@@ -51,7 +51,6 @@ export function once(stores, derive, initial) {
 
   function done() {
     for (const stop of unsubscribers) {
-      console.log(stop);
       stop();
     }
     unsubscribers = [];

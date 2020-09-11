@@ -6,6 +6,7 @@
   import { page, pagePrefix } from './stores/title.js';
   import { timer, running, breakdown } from './stores/timer.js';
   import { once } from './stores/once.js';
+  import { afterTick } from './stores/afterTick.js';
   import { messages } from './stores';
   import { clock } from './time.js';
   import {
@@ -15,6 +16,7 @@
   } from './stores';
   import endUrl from './audio/reward-notification__joao-janz.mp3';
   import thresholdUrl from './audio/bonus-points__joao-janz.mp3';
+  import { logDerivation } from './stores/debug.js';
 
   export let stopped;
   export let heading;
@@ -25,60 +27,61 @@
 
   let focusTarget;
 
-  const thresholdReached = once([timer, threshold], ([timer, threshold]) => {
-    if (timer > threshold) {
+  const thresholdReached = once([timer], ([timer]) => {
+    if (threshold && timer > threshold) {
+      console.log('Threshold reached', timer, threshold);
       return true;
     }
   });
 
-  const endReached = once([timer, end], ([timer, end]) => {
-    if (timer > end) {
+  const endReached = once([timer], ([timer]) => {
+    if (end && timer > end) {
+      console.log('End reached', timer, threshold);
       return true;
     }
   });
 
-  let settings = get(notificationsSettings);
-
-  let callback;
   const notification = derived(
     [thresholdReached, endReached, thresholdNotifiedStore, endNotifiedStore],
-    async (
-      [thresholdReached, endReached, thresholdNotified, endNotified],
-      set
-    ) => {
-      callback = () => {
-        if (!endNotified && endReached) {
-          endNotifiedStore.set(true);
-          thresholdNotifiedStore.set(true);
-          set({
-            settings: settings.end,
-            url: endUrl
-          });
-          return;
-        }
-        if (!thresholdNotified && thresholdReached) {
-          thresholdNotifiedStore.set(true);
-          set({
-            settings: settings.threshold,
-            url: thresholdUrl
-          });
-        }
-      };
-      await tick();
-      if (callback) {
-        callback();
-        callback = null;
-      }
-    }
+    afterTick(logDerivation(values => getNotification(...values)))
   );
+
+  function getNotification(
+    thresholdReached,
+    endReached,
+    thresholdNotified,
+    endNotified
+  ) {
+    if (!endNotified && endReached) {
+      endNotifiedStore.set(true);
+      thresholdNotifiedStore.set(true);
+      return {
+        settings: $notificationsSettings.end,
+        url: endUrl
+      };
+    }
+    if (!thresholdNotified && thresholdReached) {
+      console.log('Notifying threshold');
+      thresholdNotifiedStore.set(true);
+      console.log(get(thresholdNotifiedStore));
+      return {
+        settings: $notificationsSettings.threshold,
+        url: thresholdUrl
+      };
+    }
+  }
+
+  $: if ($endReached) {
+    timer.stop();
+  }
 
   let overlay;
   $: overlay = stopped || $endReached;
 
   $: if (overlay) {
     pagePrefix(messages.heading);
+    // Leave time for element to be rendered before focusing
     tick().then(() => {
-      timer.stop();
       focusTarget.focus();
     });
   } else {

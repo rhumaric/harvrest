@@ -19,29 +19,21 @@
   export let settings;
   export let session;
 
-  const threshold = derived([rest], ([rest]) => {
-    if (!rest) {
-      return microseconds(settings.minActiveTime);
-    }
-  });
+  let threshold;
+  $: threshold = !$rest ? microseconds(settings.minActiveTime) : null;
 
-  const end = derived(
-    [rest, restMinutesEarned],
-    ([rest, restMinutesEarned]) => {
-      if (rest) {
-        return microseconds(restMinutesEarned) || Infinity;
-      } else {
-        return microseconds(settings.maxActiveTime) || Infinity;
-      }
-    }
-  );
+  let end;
+  $: if ($rest) {
+    end = microseconds($restMinutesEarned) || Infinity;
+  } else {
+    end = microseconds(settings.maxActiveTime) || Infinity;
+  }
 
   function startSession() {
     if ($rest) {
       $rest = !$rest;
       dispatch('sessionEnd');
     } else {
-      console.log('Starting rest');
       $rest = !$rest;
       timer.reset();
       timer.start();
@@ -62,6 +54,9 @@
         settings.minActiveTime;
       $restMinutesEarned = Math.ceil(minutes(earnedRestTime));
     }
+    // Time needs to be reset before clearing
+    // whether the notifications have been sent
+    timer.reset();
     $thresholdNotified = false;
     $endNotified = false;
   }
