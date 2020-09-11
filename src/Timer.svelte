@@ -4,7 +4,7 @@
   import Duration from './Duration.svelte';
   import Notification from './Notification.svelte';
   import { page, pagePrefix } from './stores/title.js';
-  import { timer, breakdown } from './stores/timer.js';
+  import { timer, running, breakdown } from './stores/timer.js';
   import { once } from './stores/once.js';
   import { messages } from './stores';
   import { clock } from './time.js';
@@ -78,10 +78,19 @@
   $: if (overlay) {
     pagePrefix(messages.heading);
     tick().then(() => {
+      timer.stop();
       focusTarget.focus();
     });
   } else {
     pagePrefix(clock($breakdown));
+  }
+
+  function onPauseClick() {
+    if ($running) {
+      timer.pause();
+    } else {
+      timer.start();
+    }
   }
 </script>
 
@@ -92,7 +101,10 @@
   <div class="stack-content" class:visibility--hidden={overlay}>
     <h2>{page(heading)}</h2>
     <Duration />
-    <button class="content__action" on:click={endSession}>Stop</button>
+    <div class="content__action">
+      <button on:click={onPauseClick}> {$running ? 'Pause' : 'Resume'} </button>
+      <button on:click={endSession}>Done</button>
+    </div>
   </div>
   <div
     tabindex="-1"

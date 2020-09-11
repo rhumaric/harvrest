@@ -40,6 +40,12 @@ export const AS_BOOLEAN = {
   }
 };
 
+export const AS_INT = {
+  read(value) {
+    return value ? parseInt(value) : value;
+  }
+};
+
 export const AS_JSON = {
   read(value) {
     return JSON.parse(value);

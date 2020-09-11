@@ -1,17 +1,26 @@
-import { storable, AS_BOOLEAN } from './storable';
-import { derived, get } from 'svelte/store';
+import { storable, AS_BOOLEAN, AS_INT } from './storable';
+import { derived, get, writable } from 'svelte/store';
 
 export const timer = createStore();
 export const elapsed = timer.elapsed;
 export const running = timer.running;
 export const startTime = timer.startTime;
-export const breakdown = timer.breakdown;
+export const breakdown = derived([elapsed], ([elapsed]) => {
+  // Use the Date object to help with formatting date
+  const date = new Date(0, 0, 0, 0, 0, elapsed / 1000);
+  return {
+    seconds: date.getSeconds(),
+    minutes: date.getMinutes(),
+    hours: date.getHours()
+  };
+});
 
 export function createStore() {
   const stores = {
-    elapsed: storable('elapsed', { initialValue: 0 }),
+    elapsed: writable(0),
     running: storable('running', { ...AS_BOOLEAN }),
-    startTime: storable('startTime')
+    startTime: storable('startTime'),
+    accumulated: storable('accumulated', { ...AS_INT, initialValue: 0 })
   };
 
   let interval;
@@ -21,24 +30,25 @@ export function createStore() {
     start();
   }
 
+  const time = derived(
+    [stores.elapsed, stores.accumulated],
+    ([elapsed, accumulated]) => {
+      const time = elapsed + accumulated;
+      console.log('Time', time);
+      return time;
+    }
+  );
+
   return {
     start,
     stop,
     reset,
-    breakdown: derived([stores.elapsed], ([elapsed]) => {
-      // Use the Date object to help with formatting date
-      const date = new Date(0, 0, 0, 0, 0, elapsed / 1000);
-      return {
-        seconds: date.getSeconds(),
-        minutes: date.getMinutes(),
-        hours: date.getHours()
-      };
-    }),
-    elapsed: stores.elapsed,
+    pause,
+    elapsed: time,
     running: stores.running,
     startTime: stores.startTime,
     subscribe(fn) {
-      return stores.elapsed.subscribe(fn);
+      return time.subscribe(fn);
     }
   };
 
@@ -57,12 +67,25 @@ export function createStore() {
   }
 
   function updateTime() {
-    stores.elapsed.set(Date.now() - startTime);
+    const elapsed = Date.now() - startTime;
+    console.log('Elapsed', elapsed);
+    stores.elapsed.set(elapsed);
+  }
+
+  function pause() {
+    if (get(stores.running)) {
+      stores.accumulated.set(get(stores.accumulated) + get(stores.elapsed));
+      stores.startTime.set();
+      startTime = null;
+      stores.elapsed.set(0);
+      stop();
+    }
   }
 
   function reset() {
     startTime = null;
     stores.elapsed.set(0);
+    stores.accumulated.set(0);
     stores.startTime.set();
   }
 
