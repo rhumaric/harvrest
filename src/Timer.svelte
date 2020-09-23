@@ -16,7 +16,6 @@
   } from './stores';
   import endUrl from './audio/reward-notification__joao-janz.mp3';
   import thresholdUrl from './audio/bonus-points__joao-janz.mp3';
-  import { logDerivation } from './stores/debug.js';
 
   export let stopped;
   export let heading;
@@ -30,21 +29,19 @@
 
   const thresholdReached = once([timer], ([timer]) => {
     if (threshold && timer > threshold) {
-      console.log('Threshold reached', timer, threshold);
       return true;
     }
   });
 
   const endReached = once([timer], ([timer]) => {
     if (end && timer > end) {
-      console.log('End reached', timer, threshold);
       return true;
     }
   });
 
   const notification = derived(
     [thresholdReached, endReached, thresholdNotifiedStore, endNotifiedStore],
-    afterTick(logDerivation(values => getNotification(...values)))
+    afterTick(values => getNotification(...values))
   );
 
   function getNotification(
@@ -62,9 +59,7 @@
       };
     }
     if (!thresholdNotified && thresholdReached) {
-      console.log('Notifying threshold');
       thresholdNotifiedStore.set(true);
-      console.log(get(thresholdNotifiedStore));
       return {
         settings: $notificationsSettings.threshold,
         url: thresholdUrl
