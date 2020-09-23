@@ -98,7 +98,7 @@
 {/if}
 <div class="stack">
   <div class="stack-content" class:visibility--hidden={overlay}>
-    <h2>{page(heading)}</h2>
+    <h1>{page(heading)}</h1>
     <Duration />
     <div class="content__action">
       {#if allowPause}
@@ -117,7 +117,7 @@
     aria-modal="true"
     class="content stack__overlay"
     class:visibility--hidden={!overlay}>
-    <h2 id="dialogHeading">{$messages.heading}</h2>
+    <h1 id="dialogHeading">{$messages.heading}</h1>
     <div id="dialogDesc">
       {@html $messages.content}
     </div>

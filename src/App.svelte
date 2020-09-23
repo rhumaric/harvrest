@@ -26,7 +26,7 @@
 </script>
 
 <main class="spaced">
-  <p class="lead">Harvrest</p>
+  <p class="logo">Harvrest</p>
   {#if $started}
     <Session {settings} {session} on:sessionEnd={() => ($started = false)} />
   {:else}

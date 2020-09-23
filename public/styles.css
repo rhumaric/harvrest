@@ -1,7 +1,7 @@
 :root {
   --shadow-color: #e9cac3;
   --primary: #460160;
-  --primary-light: #91618d;
+  --primary-light: #865782;
   --primary-lighter:  #a582ab; /* Poss. better accessibility with: #ac87b2 */ 
   --primary-tint-25: #744088; /* Poss. better accessibility with: #613572 */
   --primary-tint-75: #d0bfd7;
@@ -190,9 +190,10 @@ body {
   text-align: center;
 }
 
-.lead {
+.logo {
   text-align:center;
-  font-size: 1.25rem;
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
 .content {
