@@ -8,6 +8,7 @@
   --primary-shadow: #bea5c0;
   --light: #f9f5ef;
   --secondary: #fbe1ce;
+  --danger: #dc0f0f;
 }
 
 
@@ -58,6 +59,10 @@ a:active {
 
 input {
   font: inherit;
+}
+
+input:invalid {
+  box-shadow: none;
 }
 
 fieldset {
@@ -186,6 +191,11 @@ body {
   max-width: 15rem;
 }
 
+.error {
+  color: var(--danger);
+  text-align: center;
+}
+
 .text-align--center {
   text-align: center;
 }
@@ -236,12 +246,16 @@ body {
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-gap: 0;
-  border-top-left-radius: calc(6em / 16) 50%;
-  border-top-right-radius: calc(6em / 16) 50%;
-  border-bottom-left-radius: calc(6em / 16) 50%;
-  border-bottom-right-radius: calc(6em / 16) 50%;
+  border-top-left-radius: calc(6em / 16 + 0.125rem) 50%;
+  border-top-right-radius: calc(6em / 16 + 0.125rem) 50%;
+  border-bottom-left-radius: calc(6em / 16 + 0.125rem) 50%;
+  border-bottom-right-radius: calc(6em / 16 + 0.125rem) 50%;
   box-shadow: 0 0.25rem 0 var(--shadow-color);
   border: solid 0.125rem white;
+}
+
+.stepper--error {
+  border-color: var(--danger);
 }
 
 .stepper button {

@@ -1,35 +1,55 @@
 <script>
+  const MINIMUM = 1;
+
   export let label;
   export let value;
   export let id;
+  export let error;
 
   // export let wrapperProps = {};
   // export let labelProps = {};
   export let inputProps = {};
 
   function decrement() {
-    value = (value || 0) - 1;
-    if (value < 0) {
-      value = 0;
+    value = Math.round((value || MINIMUM) - 1);
+    if (value < MINIMUM) {
+      value = MINIMUM;
     }
+    error = null;
   }
 
   function increment() {
-    value = (value || 0) + 1;
+    value = Math.round((value || MINIMUM) + 1);
+    error = null;
   }
 
   function clear() {
-    value = 0;
+    value = MINIMUM;
   }
 
   let input;
   let announce = true;
+  let el;
+
+  function handleFocusout(e) {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      validateValue();
+    }
+  }
+
+  function validateValue() {
+    if (Number.isNaN(parseInt(input.value, 10))) {
+      error = 'Please enter a number';
+    } else {
+      error = null;
+    }
+  }
 </script>
 
-<fieldset>
+<fieldset class="spaced--small" on:focusout={handleFocusout}>
   <legend on:click={() => input.focus()}>{label}</legend>
   <!-- Wrapped in a div for Chrome -->
-  <div class="stepper stepper--contained">
+  <div class="stepper stepper--contained" class:stepper--error={error}>
     <button class="stepper__decrement" type="button" on:click={decrement}>
       <span aria-hidden="true">-</span>
       <span class="sr-only">Decrement</span>
@@ -46,6 +66,7 @@
         {...inputProps}
         pattern="[0-9]*"
         inputmode="tel"
+        aria-describedby={error ? `${id}_error` : null}
         on:change />
       <button type="button" on:click={clear}>
         <span aria-hidden="true">&times;</span>
@@ -60,4 +81,7 @@
   <div aria-live="polite" class="sr-only">
     {#if announce}{value}{/if}
   </div>
+  {#if error}
+    <p class="error" id={`${id}_error`}>{error}</p>
+  {/if}
 </fieldset>
