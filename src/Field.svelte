@@ -41,7 +41,8 @@
         on:blur={() => (announce = true)}
         bind:this={input}
         {id}
-        bind:value
+        {value}
+        on:input={e => (value = parseInt(e.target.value, 10))}
         {...inputProps}
         pattern="[0-9]*"
         inputmode="tel"
