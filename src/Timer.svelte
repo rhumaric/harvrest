@@ -24,6 +24,7 @@
   export let threshold;
   export let endSession;
   export let startSession;
+  export let allowPause = true;
 
   let focusTarget;
 
@@ -105,7 +106,11 @@
     <h2>{page(heading)}</h2>
     <Duration />
     <div class="content__action">
-      <button on:click={onPauseClick}> {$running ? 'Pause' : 'Resume'} </button>
+      {#if allowPause}
+        <button on:click={onPauseClick}>
+          {$running ? 'Pause' : 'Resume'}
+        </button>
+      {/if}
       <button on:click={endSession}>Done</button>
     </div>
   </div>

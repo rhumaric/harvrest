@@ -73,6 +73,7 @@
         heading="Rest"
         {threshold}
         {end}
+        allowPause={false}
         stopped={$restStopped}
         {endSession}
         {startSession} />
