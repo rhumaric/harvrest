@@ -1,6 +1,7 @@
 <script>
   import Checkbox from '../../components/Checkbox.svelte';
-  import { notificationsSettings } from '../../stores';
+
+  export let settings;
 </script>
 
 <div>
@@ -10,7 +11,7 @@
 <div class="column column--medium spaced">
   <fieldset>
     <legend class="margin-after">
-      <span class="title-with-side-lines"> <span>Threshold</span> </span>
+      <span class="title-with-side-lines"><span>Threshold</span> </span>
     </legend>
     <div class="spaced--small">
       <Checkbox

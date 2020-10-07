@@ -100,7 +100,7 @@
   <div class="stack-content" class:visibility--hidden={overlay}>
     <h1>{page(heading)}</h1>
     <Duration />
-    <div class="content__action">
+    <div class="content__action content-actions">
       {#if allowPause}
         <button on:click={onPauseClick}>
           {$running ? 'Pause' : 'Resume'}
