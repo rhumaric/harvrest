@@ -1,30 +1,30 @@
 <script>
-  const MINIMUM = 1;
-
   export let label;
   export let value;
   export let id;
-  export let error;
+  const minimum = 1;
+  const step = 1;
+  export let error = null;
 
   // export let wrapperProps = {};
   // export let labelProps = {};
   export let inputProps = {};
 
   function decrement() {
-    value = Math.round((value || MINIMUM) - 1);
-    if (value < MINIMUM) {
-      value = MINIMUM;
+    value = Math.round((value || minimum) - step);
+    if (value < minimum) {
+      value = minimum;
     }
     error = null;
   }
 
   function increment() {
-    value = Math.round((value || MINIMUM) + 1);
+    value = Math.round((value || minimum) + step);
     error = null;
   }
 
   function clear() {
-    value = MINIMUM;
+    value = minimum;
   }
 
   let input;
@@ -63,10 +63,12 @@
         {id}
         {value}
         on:input={e => (value = parseInt(e.target.value, 10))}
-        {...inputProps}
+        type="number"
+        {step}
         pattern="[0-9]*"
         inputmode="tel"
         aria-describedby={error ? `${id}_error` : null}
+        {...inputProps}
         on:change />
       <button type="button" on:click={clear}>
         <span aria-hidden="true">&times;</span>
