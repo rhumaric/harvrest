@@ -23,25 +23,33 @@
     activeTime: 0,
     restTime: 0
   };
+
+  function end() {
+    $started = false;
+  }
+
+  function start() {
+    $started = true;
+    reset();
+  }
+
+  function reset() {
+    $activeStopped = false;
+    $restStopped = false;
+    $rest = false;
+    $thresholdNotified = false;
+    $endNotified = false;
+    timer.reset();
+    timer.start();
+  }
 </script>
 
 <main class="spaced">
   <p class="logo">Harvrest</p>
   {#if $started}
-    <Session {settings} {session} on:sessionEnd={() => ($started = false)} />
+    <Session {settings} {session} on:sessionEnd={end} />
   {:else}
-    <Home
-      {settings}
-      action={() => {
-        $started = true;
-        $activeStopped = false;
-        $restStopped = false;
-        $rest = false;
-        $thresholdNotified = false;
-        $endNotified = false;
-        timer.reset();
-        timer.start();
-      }} />
+    <Home {settings} action={start} />
   {/if}
 </main>
 <DocumentTitle title={$title} live={$live} />
