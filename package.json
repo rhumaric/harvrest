@@ -16,7 +16,7 @@
     "docs:serve": "browser-sync start -s docs -w 'docs/**/*'",
     "docs:write": "run-p docs:watch docs:serve",
     "release": "np",
-    "start": "sirv public"
+    "start": "sirv public --host 0"
   },
   "repository": {
     "type": "git",
