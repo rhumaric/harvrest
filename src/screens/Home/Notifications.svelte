@@ -1,31 +1,27 @@
 <script>
   import Checkbox from '../../components/Checkbox.svelte';
 
-  export let settings;
+  export let settings = {};
 </script>
 
-<div>
-  <a class="back-link" href="#/settings">Back</a>
-  <h1>Notifications</h1>
-</div>
 <div class="column column--medium spaced">
   <fieldset>
     <legend class="margin-after">
-      <span class="title-with-side-lines"><span>Threshold</span> </span>
+      <span class="title-with-side-lines"> <span>Threshold</span> </span>
     </legend>
     <div class="spaced--small">
       <Checkbox
         id="threshold_visual"
         label="Visual"
-        bind:value={$notificationsSettings.threshold.visual} />
+        bind:value={settings.threshold.visual} />
       <Checkbox
         id="threshold_audio"
         label="Audio"
-        bind:value={$notificationsSettings.threshold.audio} />
+        bind:value={settings.threshold.audio} />
       <Checkbox
         id="threshold_vibration"
         label="Vibration"
-        bind:value={$notificationsSettings.threshold.vibration} />
+        bind:value={settings.threshold.vibration} />
     </div>
   </fieldset>
   <fieldset>
@@ -33,14 +29,11 @@
       <span class="title-with-side-lines"> <span>End</span> </span>
     </legend>
     <div class="spaced--small">
-      <Checkbox
-        id="end_audio"
-        label="Audio"
-        bind:value={$notificationsSettings.end.audio} />
+      <Checkbox id="end_audio" label="Audio" bind:value={settings.end.audio} />
       <Checkbox
         id="end_vibration"
         label="Vibration"
-        bind:value={$notificationsSettings.end.vibration} />
+        bind:value={settings.end.vibration} />
     </div>
   </fieldset>
 </div>

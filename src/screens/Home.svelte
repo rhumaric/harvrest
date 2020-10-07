@@ -6,6 +6,7 @@
   import SettingsForm from './Home/SettingsForm.svelte';
   import { page } from '../stores/title.js';
   import { notificationsSettings } from '../stores';
+  import Settings from './Settings.svelte';
 
   export let settings;
   export let action = () => {};
@@ -16,17 +17,16 @@
     hash = window.location.hash;
   }
 
-  function onSubmit(event) {
-    if (event.submitter.name == 'save') {
-      window.location.hash = '/settings';
-    } else {
-      action();
-      window.location.hash = '';
-    }
+  function handleSave() {
+    window.location.hash = '/settings';
+  }
+
+  function handleGo() {
+    action();
+    window.location.hash = '';
   }
 
   onMount(() => {
-    page();
     window.addEventListener('hashchange', updateHash);
     return () => {
       window.removeEventListener('hashchange', updateHash);
@@ -35,54 +35,33 @@
 
   let isSettings;
   $: isSettings = /#\/settings/.test(hash);
+
+  let data;
 </script>
 
 {#if hash === '#/settings/timings'}
-  <SettingsForm html={{ 'aria-labelledby': 'title' }} on:submit={onSubmit}>
-    <div>
-      <a class="back-link" href="#/settings">Back</a>
-      <h1 id="title">Timings</h1>
-    </div>
-    <Timings {settings} />
+  <SettingsForm
+    bind:data={settings}
+    let:editableData={data}
+    title={page('Timings')}
+    on:save={handleSave}
+    on:go={handleGo}>
+    <Timings settings={data} />
   </SettingsForm>
 {:else if hash === '#/settings/notifications'}
-  <SettingsForm html={{ 'aria-labelledby': 'title' }} on:submit={onSubmit}>
-    <div>
-      <a class="back-link" href="#/settings">Back</a>
-      <h1 id="title" class="mt-0">Notifications</h1>
-    </div>
-    <Notifications {$notificationsSettings} />
+  <SettingsForm
+    bind:data={$notificationsSettings}
+    let:editableData={data}
+    title={page('Notifications')}
+    on:save={handleSave}
+    on:go={handleGo}>
+    <Notifications settings={data} />
   </SettingsForm>
 {:else if isSettings}
-  <form
-    class="content"
-    aria-labelledby="title"
-    on:submit|preventDefault={onSubmit}>
-    <div>
-      <a class="back-link" href="#/">Back</a>
-      <h1 id="title">Settings</h1>
-    </div>
-    <div class="text-align--center column column--medium spaced">
-      <a
-        class="button button--secondary button--low"
-        href="#/settings/timings"
-        draggable="false">
-        Timings
-      </a>
-      <a
-        class="button button--secondary button--low"
-        href="#/settings/notifications"
-        draggable="false">
-        Notifications
-      </a>
-      <div class="content__action content-actions">
-        <button>Let's go!</button>
-      </div>
-    </div>
-  </form>
+  <Settings title={page('Settings')} on:submit={handleGo} />
 {:else}
-  <form class="content content--copy-last">
-    <h1>Pomodoro, with a twist!</h1>
+  <form class="content content--copy-last" on:submit|preventDefault={handleGo}>
+    <h1>{page('Pomodoro, with a twist!')}</h1>
     <Description {settings} />
     <p class="text-align--center"><a href="#/settings">Settings</a></p>
     <div class="content__action content-actions">
