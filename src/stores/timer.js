@@ -1,18 +1,13 @@
 import { storable, AS_BOOLEAN, AS_INT } from './storable';
 import { derived, get, writable } from 'svelte/store';
+import { breakdown as timeBreakdown } from '../time';
 
 export const timer = createStore();
 export const elapsed = timer.elapsed;
 export const running = timer.running;
 export const startTime = timer.startTime;
 export const breakdown = derived([elapsed], ([elapsed]) => {
-  // Use the Date object to help with formatting date
-  const date = new Date(0, 0, 0, 0, 0, elapsed / 1000);
-  return {
-    seconds: date.getSeconds(),
-    minutes: date.getMinutes(),
-    hours: date.getHours()
-  };
+  return timeBreakdown(elapsed);
 });
 
 export function createStore() {

@@ -25,6 +25,16 @@ export function humanize({ hours, minutes, seconds }) {
   return parts.join(', ');
 }
 
+export function breakdown(microseconds) {
+  // Use the Date object to help with formatting date
+  const date = new Date(0, 0, 0, 0, 0, microseconds / 1000);
+  return {
+    seconds: date.getSeconds(),
+    minutes: date.getMinutes(),
+    hours: date.getHours()
+  };
+}
+
 export function clock({ hours, minutes, seconds }) {
   if (hours) {
     return `${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)}`;
