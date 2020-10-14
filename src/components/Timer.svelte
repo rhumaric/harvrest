@@ -1,21 +1,21 @@
 <script>
   import { tick, onMount } from 'svelte';
   import { get, derived } from 'svelte/store';
-  import Duration from './Duration.svelte';
-  import Notification from './Notification.svelte';
-  import { page, pagePrefix } from './stores/title.js';
-  import { timer, running, breakdown } from './stores/timer.js';
-  import { once } from './stores/once.js';
-  import { afterTick } from './stores/afterTick.js';
-  import { messages } from './stores';
-  import { clock } from './time.js';
+  import Duration from 'components/Duration.svelte';
+  import Notification from 'components/Notification.svelte';
+  import { page, pagePrefix } from 'stores/title.js';
+  import { timer, running, breakdown } from 'stores/timer.js';
+  import { once } from 'stores/once.js';
+  import { afterTick } from 'stores/afterTick.js';
+  import { messages } from 'stores';
+  import { clock } from 'lib/time.js';
   import {
     thresholdNotified as thresholdNotifiedStore,
     endNotified as endNotifiedStore,
     notificationsSettings
-  } from './stores';
-  import endUrl from './audio/reward-notification__joao-janz.mp3';
-  import thresholdUrl from './audio/bonus-points__joao-janz.mp3';
+  } from 'stores';
+  import endUrl from 'audio/reward-notification__joao-janz.mp3';
+  import thresholdUrl from 'audio/bonus-points__joao-janz.mp3';
 
   export let stopped;
   export let heading;

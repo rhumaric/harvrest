@@ -1,6 +1,6 @@
 import { storable, AS_BOOLEAN, AS_INT } from './storable';
 import { derived, get, writable } from 'svelte/store';
-import { breakdown as timeBreakdown } from '../time';
+import { breakdown as timeBreakdown } from 'lib/time';
 
 export const timer = createStore();
 export const elapsed = timer.elapsed;

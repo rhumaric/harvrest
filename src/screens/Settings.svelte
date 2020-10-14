@@ -1,5 +1,5 @@
 <script>
-  import { page } from '../stores/title.js';
+  import { page } from 'stores/title.js';
 
   export let title;
 </script>

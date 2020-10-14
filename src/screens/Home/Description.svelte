@@ -1,5 +1,5 @@
 <script>
-  import { humanize, breakdown, microseconds } from '../../time.js';
+  import { humanize, breakdown, microseconds } from 'lib/time.js';
 
   export let settings;
   function formatTime(minutes) {

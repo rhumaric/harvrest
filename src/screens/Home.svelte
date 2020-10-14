@@ -4,8 +4,8 @@
   import Timings from './Home/Timings.svelte';
   import Notifications from './Home/Notifications.svelte';
   import SettingsForm from './Home/SettingsForm.svelte';
-  import { page } from '../stores/title.js';
-  import { notificationsSettings, timingsSettings } from '../stores';
+  import { page } from 'stores/title.js';
+  import { notificationsSettings, timingsSettings } from 'stores';
   import Settings from './Settings.svelte';
 
   export let action = () => {};

@@ -1,8 +1,8 @@
 <script>
-  import Session from './Session.svelte';
-  import Home from './screens/Home.svelte';
-  import DocumentTitle from './DocumentTitle.svelte';
-  import { title, live } from './stores/title.js';
+  import Session from 'components/Session.svelte';
+  import Home from 'screens/Home.svelte';
+  import DocumentTitle from 'components/DocumentTitle.svelte';
+  import { title, live } from 'stores/title.js';
   import {
     started,
     activeStopped,
@@ -10,8 +10,8 @@
     rest,
     endNotified,
     thresholdNotified
-  } from './stores';
-  import { timer } from './stores/timer.js';
+  } from 'stores';
+  import { timer } from 'stores/timer.js';
 
   let session = {
     activeTime: 0,

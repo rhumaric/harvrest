@@ -62,6 +62,12 @@ export default {
     // https://github.com/rollup/plugins/tree/master/packages/commonjs
     resolve({
       browser: true,
+      customResolveOptions: {
+        moduleDirectory: 'src'
+      }
+    }),
+    resolve({
+      browser: true,
       dedupe: ['svelte']
     }),
     commonjs(),

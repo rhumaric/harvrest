@@ -1,8 +1,8 @@
 <script>
   import { derived } from 'svelte/store';
-  import { flipHorizontally } from './transitions.js';
-  import { minutes, microseconds } from './time.js';
-  import Timer from './Timer.svelte';
+  import { flipHorizontally } from 'lib/transitions.js';
+  import { minutes, microseconds } from 'lib/time.js';
+  import Timer from 'components/Timer.svelte';
   import {
     rest,
     activeStopped,
@@ -11,8 +11,8 @@
     thresholdNotified,
     endNotified,
     timingsSettings
-  } from './stores';
-  import { timer } from './stores/timer.js';
+  } from 'stores';
+  import { timer } from 'stores/timer.js';
 
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();

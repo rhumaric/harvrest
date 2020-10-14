@@ -1,5 +1,5 @@
 <script>
-  import Stepper from '../../Stepper.svelte';
+  import Stepper from 'components/Stepper.svelte';
   export let settings;
 
   const fieldProps = {
