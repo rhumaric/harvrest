@@ -1,3 +1,4 @@
+import 'focus-visible';
 import App from './App.svelte';
 
 // Code goes here

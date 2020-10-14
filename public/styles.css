@@ -168,6 +168,14 @@ body {
   outline-offset: 0.125rem;
 }
 
+*:focus:not(.focus-visible) {
+  outline: none;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Bootstrap's .sr-only */
 .sr-only {
   position: absolute !important;
