@@ -5,10 +5,9 @@
   import Notifications from './Home/Notifications.svelte';
   import SettingsForm from './Home/SettingsForm.svelte';
   import { page } from '../stores/title.js';
-  import { notificationsSettings } from '../stores';
+  import { notificationsSettings, timingsSettings } from '../stores';
   import Settings from './Settings.svelte';
 
-  export let settings;
   export let action = () => {};
 
   let hash = window.location.hash;
@@ -41,7 +40,7 @@
 
 {#if hash === '#/settings/timings'}
   <SettingsForm
-    bind:data={settings}
+    bind:data={$timingsSettings}
     let:editableData={data}
     title={page('Timings')}
     on:save={handleSave}
@@ -62,7 +61,7 @@
 {:else}
   <form class="content content--copy-last" on:submit|preventDefault={handleGo}>
     <h1>{page('Pomodoro, with a twist!')}</h1>
-    <Description {settings} />
+    <Description settings={$timingsSettings} />
     <p class="text-align--center"><a href="#/settings">Settings</a></p>
     <div class="content__action content-actions">
       <button>Let's go!</button>

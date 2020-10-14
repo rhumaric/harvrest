@@ -9,24 +9,24 @@
     restStopped,
     restMinutesEarned,
     thresholdNotified,
-    endNotified
+    endNotified,
+    timingsSettings
   } from './stores';
   import { timer } from './stores/timer.js';
 
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let settings;
   export let session;
 
   let threshold;
-  $: threshold = !$rest ? microseconds(settings.minActiveTime) : null;
+  $: threshold = !$rest ? microseconds($timingsSettings.minActiveTime) : null;
 
   let end;
   $: if ($rest) {
     end = microseconds($restMinutesEarned) || Infinity;
   } else {
-    end = microseconds(settings.maxActiveTime) || Infinity;
+    end = microseconds($timingsSettings.maxActiveTime) || Infinity;
   }
 
   function startSession() {
@@ -50,8 +50,8 @@
       $activeStopped = true;
       session.activeTime = $timer;
       const earnedRestTime =
-        (settings.restForMinActiveTime * session.activeTime) /
-        settings.minActiveTime;
+        ($timingsSettings.restForMinActiveTime * session.activeTime) /
+        $timingsSettings.minActiveTime;
       $restMinutesEarned = Math.ceil(minutes(earnedRestTime));
     }
     // Time needs to be reset before clearing

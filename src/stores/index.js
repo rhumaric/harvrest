@@ -22,6 +22,15 @@ export const notificationsSettings = storable('notificationsSettings', {
   }
 });
 
+export const timingsSettings = storable('timingsSettings', {
+  ...AS_JSON,
+  initialValue: {
+    minActiveTime: 5 / 60,
+    maxActiveTime: 10 / 60,
+    restForMinActiveTime: 5 / 60
+  }
+});
+
 export const thresholdNotified = storable('thresholdNotified', {
   ...AS_BOOLEAN
 });

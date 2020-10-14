@@ -13,12 +13,6 @@
   } from './stores';
   import { timer } from './stores/timer.js';
 
-  let settings = {
-    minActiveTime: 5 / 60,
-    maxActiveTime: 10 / 60,
-    restForMinActiveTime: 5 / 60
-  };
-
   let session = {
     activeTime: 0,
     restTime: 0
@@ -47,9 +41,9 @@
 <main class="spaced">
   <p class="logo">Harvrest</p>
   {#if $started}
-    <Session {settings} {session} on:sessionEnd={end} />
+    <Session {session} on:sessionEnd={end} />
   {:else}
-    <Home {settings} action={start} />
+    <Home action={start} />
   {/if}
 </main>
 <DocumentTitle title={$title} live={$live} />
