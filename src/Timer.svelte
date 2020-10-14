@@ -1,5 +1,5 @@
 <script>
-  import { tick } from 'svelte';
+  import { tick, onMount } from 'svelte';
   import { get, derived } from 'svelte/store';
   import Duration from './Duration.svelte';
   import Notification from './Notification.svelte';
@@ -91,6 +91,10 @@
       timer.start();
     }
   }
+
+  onMount(() => {
+    page(heading);
+  });
 </script>
 
 {#if $notification}
@@ -98,7 +102,7 @@
 {/if}
 <div class="stack">
   <div class="stack-content" class:visibility--hidden={overlay}>
-    <h1>{page(heading)}</h1>
+    <h1>{heading}</h1>
     <Duration />
     <div class="content__action content-actions">
       {#if allowPause}
