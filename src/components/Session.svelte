@@ -21,7 +21,7 @@
 
   let threshold;
   $: threshold = !$rest ? microseconds($timingsSettings.minActiveTime) : null;
-
+  $: console.log('Rest minutes earned', $restMinutesEarned);
   let end;
   $: if ($rest) {
     end = microseconds($restMinutesEarned) || Infinity;
@@ -49,10 +49,15 @@
     } else {
       $activeStopped = true;
       session.activeTime = $timer;
+
+      const activeTimeRatio =
+        session.activeTime / $timingsSettings.minActiveTime;
+
       const earnedRestTime =
-        ($timingsSettings.restForMinActiveTime * session.activeTime) /
-        $timingsSettings.minActiveTime;
-      $restMinutesEarned = Math.ceil(minutes(earnedRestTime));
+        $timingsSettings.restForMinActiveTime * activeTimeRatio;
+
+      // Allow at least 1 minute of rest
+      $restMinutesEarned = Math.max(Math.ceil(minutes(earnedRestTime)), 1);
     }
     // Time needs to be reset before clearing
     // whether the notifications have been sent
