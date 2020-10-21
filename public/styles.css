@@ -227,7 +227,7 @@ body {
 
 .logo {
   text-align:center;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
 }
 
@@ -559,7 +559,8 @@ body {
 .back-link {
   position: absolute;
   bottom: 100%;
-  left: 3rem;
+  left: 1.5rem;
+  left: clamp(1rem, 5vw, 2rem);
   margin-bottom: 0.5rem;
 }
 

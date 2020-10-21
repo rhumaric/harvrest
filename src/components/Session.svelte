@@ -66,10 +66,17 @@
     $endNotified = false;
   }
 
-  const transitionDuration = 100;
+  let transitionDuration = 100;
+
+  function cancel() {
+    // Prevent out transition of active panel
+    transitionDuration = 0;
+    dispatch('sessionEnd');
+  }
 </script>
 
-<div class="stack">
+<div class="stack back-link-container">
+  <a class="back-link" href="#/" on:click={cancel}> Cancel </a>
   {#if $rest}
     <div
       class="rest content content--copy-last"
