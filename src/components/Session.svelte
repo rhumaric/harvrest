@@ -21,7 +21,7 @@
 
   let threshold;
   $: threshold = !$rest ? microseconds($timingsSettings.minActiveTime) : null;
-  $: console.log('Rest minutes earned', $restMinutesEarned);
+
   let end;
   $: if ($rest) {
     end = microseconds($restMinutesEarned) || Infinity;
