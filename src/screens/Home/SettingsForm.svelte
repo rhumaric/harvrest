@@ -18,11 +18,12 @@
   }
 </script>
 
-<form class="content" on:submit|preventDefault={handleSubmit} {...html}>
-  <div>
-    <a class="back-link" href="#/settings">Back</a>
-    <h1 id="title" class="mt-0">{title}</h1>
-  </div>
+<form
+  class="content back-link-container"
+  on:submit|preventDefault={handleSubmit}
+  {...html}>
+  <a class="back-link" href="#/settings">Back</a>
+  <h1 id="title" class="mt--0">{title}</h1>
   <slot {editableData} />
   <div class="content__action content-actions">
     <button name="save" class="button--secondary">Save</button>

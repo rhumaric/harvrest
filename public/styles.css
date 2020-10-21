@@ -544,13 +544,22 @@ body {
   outline-offset: 0.125rem;
 }
 
-.checkbox :focus:not(:-moz-focusring) + label::before {
+.checkbox :focus:not(:focus-visible) + label::before {
   outline: none;
+}
+
+.checkbox :focus:not(.focus-visible) + label::before {
+  outline: none;
+}
+
+.back-link-container {
+  position: relative;
 }
 
 .back-link {
   position: absolute;
   bottom: 100%;
+  left: 3rem;
   margin-bottom: 0.5rem;
 }
 
@@ -582,4 +591,8 @@ body {
 
 .title-with-side-lines::after {
   background-position: right 0 top 50%;
+}
+
+.mt--0 {
+  margin-top: 0;
 }
