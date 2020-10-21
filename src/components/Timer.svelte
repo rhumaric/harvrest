@@ -125,8 +125,8 @@
     <div id="dialogDesc">
       {@html $messages.content}
     </div>
-    <button class="content__action" on:click={startSession}>
-      {$messages.button}
-    </button>
+    <div class="content__action">
+      <button on:click={startSession}> {$messages.button} </button>
+    </div>
   </div>
 </div>
