@@ -68,7 +68,7 @@
   }
 
   $: if ($endReached) {
-    timer.stop();
+    endSession();
   }
 
   let overlay;
