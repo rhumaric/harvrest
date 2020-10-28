@@ -79,7 +79,7 @@
   <a class="back-link" href="#/" on:click={cancel}> Cancel </a>
   {#if $rest}
     <div
-      class="rest content content--copy-last"
+      class="rest content content--copy-last spaced"
       in:flipHorizontally={{ duration: transitionDuration, delay: transitionDuration, oppositeDirection: true }}>
       <Timer
         heading="Rest"
@@ -92,7 +92,7 @@
     </div>
   {:else}
     <div
-      class="active content content--copy-last"
+      class="active content spaced content--copy-last"
       out:flipHorizontally={{ duration: transitionDuration }}>
       <Timer
         heading="Active"

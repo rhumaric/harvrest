@@ -19,7 +19,7 @@
 </script>
 
 <form
-  class="content back-link-container"
+  class="content spaced back-link-container"
   on:submit|preventDefault={handleSubmit}
   {...html}>
   <a class="back-link" href="#/settings">Back</a>

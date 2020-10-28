@@ -59,7 +59,9 @@
 {:else if isSettings}
   <Settings title={page('Settings')} on:submit={handleGo} />
 {:else}
-  <form class="content content--copy-last" on:submit|preventDefault={handleGo}>
+  <form
+    class="content content--copy-last spaced"
+    on:submit|preventDefault={handleGo}>
     <h1>{page('Pomodoro, with a twist!')}</h1>
     <Description settings={$timingsSettings} />
     <p class="text-align--center"><a href="#/settings">Settings</a></p>
