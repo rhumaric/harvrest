@@ -1,5 +1,12 @@
 import 'focus-visible';
 import App from './App.svelte';
+import { shouldLoadFonts, loadFonts } from './fonts';
+
+if ('fonts' in document) {
+  if (shouldLoadFonts()) {
+    loadFonts();
+  }
+}
 
 // Code goes here
 const app = new App({
