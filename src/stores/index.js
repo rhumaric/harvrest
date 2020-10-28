@@ -22,13 +22,22 @@ export const notificationsSettings = storable('notificationsSettings', {
   }
 });
 
+const INITIAL_TIMING_SETTINGS =
+  process.env.NODE_ENV !== 'production'
+    ? {
+        minActiveTime: 5 / 60,
+        maxActiveTime: 10 / 60,
+        restForMinActiveTime: 5 / 60
+      }
+    : {
+        minActiveTime: 25,
+        maxActiveTime: 50,
+        restForMinActiveTime: 5
+      };
+
 export const timingsSettings = storable('timingsSettings', {
   ...AS_JSON,
-  initialValue: {
-    minActiveTime: 5 / 60,
-    maxActiveTime: 10 / 60,
-    restForMinActiveTime: 5 / 60
-  }
+  initialValue: INITIAL_TIMING_SETTINGS
 });
 
 export const thresholdNotified = storable('thresholdNotified', {
