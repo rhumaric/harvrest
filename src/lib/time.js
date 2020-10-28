@@ -14,15 +14,23 @@ export function microseconds(minutes) {
 export function humanize({ hours, minutes, seconds }) {
   const parts = [];
   if (hours) {
-    parts.push(`${hours} hours`);
+    parts.push(pluralize('hour', hours));
   }
   if (minutes) {
-    parts.push(`${minutes} minutes`);
+    parts.push(pluralize('minute', minutes));
   }
   if (seconds) {
-    parts.push(`${seconds} seconds`);
+    parts.push(pluralize('second', seconds));
   }
   return parts.join(', ');
+}
+
+function pluralize(root, amount) {
+  if (amount === 1) {
+    return `${amount} ${root}`;
+  } else {
+    return `${amount} ${root + 's'}`;
+  }
 }
 
 export function breakdown(microseconds) {
