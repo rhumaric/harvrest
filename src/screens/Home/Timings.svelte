@@ -5,6 +5,10 @@
   const fieldProps = {
     inputProps: { size: 2, type: 'number' }
   };
+  const unitProps = {
+    unit: 'min',
+    unitDescription: 'in minutes'
+  };
 </script>
 
 <div class="column column--medium spaced">
@@ -12,11 +16,13 @@
     bind:value={settings.minActiveTime}
     label="Active time"
     id="minActiveTime"
+    {...unitProps}
     {...fieldProps} />
   <Stepper
     bind:value={settings.restForMinActiveTime}
     id="restForMinActiveTime"
     label="Rest time"
+    {...unitProps}
     {...fieldProps} />
 
   <fieldset>
@@ -27,6 +33,7 @@
       bind:value={settings.maxActiveTime}
       id="restForMaxActiveTime"
       label="Max. Active time"
+      {...unitProps}
       {...fieldProps} />
   </fieldset>
 </div>

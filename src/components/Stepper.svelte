@@ -5,6 +5,10 @@
   const minimum = 1;
   const step = 1;
   export let error = null;
+  export let unit;
+  export let unitDescription = null;
+
+  const descriptionId = `${id}_unit`;
 
   // export let wrapperProps = {};
   // export let labelProps = {};
@@ -49,36 +53,42 @@
 <fieldset class="spaced--small" on:focusout={handleFocusout}>
   <legend on:click={() => input.focus()}>{label}</legend>
   <!-- Wrapped in a div for Chrome -->
-  <div class="stepper stepper--contained" class:stepper--error={error}>
-    <button class="stepper__decrement" type="button" on:click={decrement}>
-      <span aria-hidden="true">-</span>
-      <span class="sr-only">Decrement</span>
-    </button>
-    <label for={id} class="sr-only">Duration</label>
-    <span class="clearable-input">
-      <input
-        on:focus={() => (announce = false)}
-        on:blur={() => (announce = true)}
-        bind:this={input}
-        {id}
-        {value}
-        on:input={e => (value = parseInt(e.target.value, 10))}
-        type="number"
-        {step}
-        pattern="[0-9]*"
-        inputmode="tel"
-        aria-describedby={error ? `${id}_error` : null}
-        {...inputProps}
-        on:change />
-      <button type="button" on:click={clear}>
-        <span aria-hidden="true">&times;</span>
-        <span class="sr-only">Clear</span>
+  <div class="stepper-with-unit">
+    <div class="stepper stepper--contained" class:stepper--error={error}>
+      <button class="stepper__decrement" type="button" on:click={decrement}>
+        <span aria-hidden="true">-</span>
+        <span class="sr-only">Decrement</span>
       </button>
-    </span>
-    <button class="stepper__increment" type="button" on:click={increment}>
-      <span aria-hidden="true">+</span>
-      <span class="sr-only">Increment</span>
-    </button>
+      <label for={id} class="sr-only">Duration</label>
+      <span class="clearable-input">
+        <input
+          on:focus={() => (announce = false)}
+          on:blur={() => (announce = true)}
+          bind:this={input}
+          {id}
+          {value}
+          on:input={e => (value = parseInt(e.target.value, 10))}
+          type="number"
+          {step}
+          pattern="[0-9]*"
+          inputmode="tel"
+          aria-describedby={`${error ? `${id}_error` : null} ${descriptionId}`}
+          {...inputProps}
+          on:change />
+        <button type="button" on:click={clear}>
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Clear</span>
+        </button>
+      </span>
+      <button class="stepper__increment" type="button" on:click={increment}>
+        <span aria-hidden="true">+</span>
+        <span class="sr-only">Increment</span>
+      </button>
+    </div>
+    <p class="stepper-unit stepper-with-unit__unit">
+      <span aria-hidden="true">{unit}</span>
+      <span class="sr-only" id={descriptionId}>{unitDescription || unit}</span>
+    </p>
   </div>
   <div aria-live="polite" class="sr-only">
     {#if announce}{value}{/if}
