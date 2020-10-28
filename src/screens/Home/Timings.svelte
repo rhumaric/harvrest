@@ -20,7 +20,7 @@
     {...fieldProps} />
 
   <fieldset>
-    <legend class="margin-after">
+    <legend class="margin-after--small">
       <span class="title-with-side-lines"> <span>Limits</span> </span>
     </legend>
     <Stepper

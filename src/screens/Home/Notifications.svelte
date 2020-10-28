@@ -6,7 +6,7 @@
 
 <div class="column column--medium spaced">
   <fieldset>
-    <legend class="margin-after">
+    <legend class="margin-after--small">
       <span class="title-with-side-lines"> <span>Threshold</span> </span>
     </legend>
     <div class="spaced--small">
@@ -25,7 +25,7 @@
     </div>
   </fieldset>
   <fieldset>
-    <legend class="margin-after">
+    <legend class="margin-after--small">
       <span class="title-with-side-lines"> <span>End</span> </span>
     </legend>
     <div class="spaced--small">
