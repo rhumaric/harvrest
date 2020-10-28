@@ -11,8 +11,10 @@
   --danger: #dc0f0f;
   --button-border-width: 0.125rem;
 
-  --elevation: 0.25rem;
+  
   --elevation-high: 0.375rem;
+  --elevation: 0.25rem;
+  --elevation-lowish: 0.1875rem;
   --elevation-low: 0.125rem;
   --elevation-lowest: 0.0625rem;
 
@@ -264,6 +266,8 @@ body {
   padding: 2.25rem 2rem 4rem;
   position: relative;
   width: 100%;
+
+  margin-bottom: 1.5rem;
 }
 
 .content--copy-last {
@@ -449,66 +453,100 @@ body {
   visibility: hidden;
 }
 
-.checkbox {
-  position: relative;
-}
+@supports(display: grid) {
 
-.checkbox input {
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-}
+  :root {
+    --checkbox-width: 1.6em;
+    --checkbox-height: 1.5em;
+  }
 
-.checkbox label {
-  display: flex;
-  align-items: center;
-}
+  .checkbox > * {
+    cursor: pointer;
+  }
 
-.checkbox label::before {
-  content: '';
-  width: 1.6em;
-  height: 1.5em;
-  font-size: 0.8em;
-  margin-right: 0.65em;
-  border-top-left-radius: 6px 50%;
-  border-bottom-left-radius: 6px 50%;
-  border-top-right-radius: 6px 50%;
-  border-bottom-right-radius: 6px 50%;
-  border: solid 0.125rem var(--primary);
-  background: white;
-  --shadow-elevation__y: var(--elevation-low);
-  box-shadow: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
-  position: relative;
-  top: -0.0625rem;
-}
+  .checkbox input {
+    opacity: 0;
+    position: absolute;
+    transform: translateY(0.25em);
+    width: var(--checkbox-width);
+    height: var(--checkbox-height);
+  }
 
-.checkbox label::after {
-  content: '';
-  position: absolute;
-  top: calc(50% - 0.0625rem);
-  left: 0.75em;
-  font-size: 0.8em;
-  transform: translate(-50%, -50%) translate(0.1875em, -0.125em)
-    rotate(-45deg);
-  border-bottom: solid 0.25em white;
-  border-left: solid 0.25em white;
-  border-bottom-left-radius: 0.125em;
-  height: 0.375em;
-  width: 0.75em;
-  opacity: 0;
-}
+  .checkbox label {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.65em;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
 
-.checkbox :checked + label::before {
-  background: var(--primary);
-}
+    --shadow-elevation__y: var(--elevation-low);
+    --original-elevation: var(--elevation-low);
+    --hover-transform: rotate(0);
+    --transition: transform 0.1s ease-in-out;
+  }
 
-.checkbox :checked + label::after {
-  opacity: 1;
-}
+  .checkbox label::before,
+  .checkbox label::after {
+    grid-column: 1/1;
+    grid-row: 1/1;
+    align-self: center;
+    justify-self: center;
+  }
 
-@media not all and (hover: none) {
+  .checkbox label::before {
+    content: '';
+    width: var(--checkbox-width);
+    height: var(--checkbox-height);
+    font-size: 0.8em;
+    border-top-left-radius: 6px 50%;
+    border-bottom-left-radius: 6px 50%;
+    border-top-right-radius: 6px 50%;
+    border-bottom-right-radius: 6px 50%;
+    border: solid 0.125rem var(--primary);
+    background: white;
+    box-shadow: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
+    transform: var(--hover-transform);
+    transition: var(--transition);
+    position: relative;
+    top: -0.0625rem;
+  }
+
+  .checkbox label::after {
+    content: '';
+    /* position: absolute;
+    top: calc(50% - 0.0625rem);
+    left: 0.75em; */
+    font-size: 0.8em;
+    --tick-transform: translateY(-0.1875em) rotate(-45deg);
+    transform: var(--hover-transform) var(--tick-transform);
+    transition: var(--transition);
+    border-bottom: solid 0.25em white;
+    border-left: solid 0.25em white;
+    border-bottom-left-radius: 0.125em;
+    height: 0.375em;
+    width: 0.75em;
+    opacity: 0;
+  }
+
+  .checkbox :checked + label::before {
+    background: var(--primary);
+  }
+
+  .checkbox :checked + label::after {
+    opacity: 1;
+  }
+
+  .checkbox label:hover,
+  .checkbox :hover + label {
+    --shadow-elevation__y: var(--elevation-lowish);
+    --hover-transform: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
+  }
+
+  .checkbox :active + label {
+    --shadow-elevation__y: var(--elevation-lowest);
+    --hover-transform: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
+  }
+
   .checkbox :hover + label::before,
   .checkbox label:hover::before {
     background: var(--primary-tint-75);
@@ -528,19 +566,19 @@ body {
   .checkbox :checked label:hover::after {
     opacity: 0.75;
   }
-}
 
-.checkbox :focus + label::before {
-  outline: solid 0.125rem var(--primary-light);
-  outline-offset: 0.125rem;
-}
+  .checkbox :focus + label::before {
+    outline: solid 0.125rem var(--primary-light);
+    outline-offset: 0.125rem;
+  }
 
-.checkbox :focus:not(:focus-visible) + label::before {
-  outline: none;
-}
+  .checkbox :focus:not(:focus-visible) + label::before {
+    outline: none;
+  }
 
-.checkbox :focus:not(.focus-visible) + label::before {
-  outline: none;
+  .checkbox :focus:not(.focus-visible) + label::before {
+    outline: none;
+  }
 }
 
 .back-link-container {
