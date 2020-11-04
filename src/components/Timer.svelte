@@ -14,6 +14,8 @@
     endNotified as endNotifiedStore,
     notificationsSettings
   } from 'stores';
+  import Toggle from './Toggle.svelte';
+  import { timeDisplayMode, ELAPSED, REMAINING } from 'stores/timeDisplayMode';
   import endUrl from 'audio/reward-notification__joao-janz.mp3';
   import thresholdUrl from 'audio/bonus-points__joao-janz.mp3';
 
@@ -104,6 +106,9 @@
   <div class="stack-content" class:visibility--hidden={overlay}>
     <h1>{heading}</h1>
     <Duration />
+    <Toggle
+      bind:value={$timeDisplayMode}
+      options={{ [ELAPSED]: 'Elapsed', [REMAINING]: 'Remaining' }} />
     <div class="content__action content-actions">
       {#if allowPause}
         <button on:click={onPauseClick}>
