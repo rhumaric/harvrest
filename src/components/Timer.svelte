@@ -82,8 +82,6 @@
     tick().then(() => {
       focusTarget.focus();
     });
-  } else {
-    pagePrefix(clock($breakdown));
   }
 
   function onPauseClick() {
@@ -106,11 +104,10 @@
   <div class="stack-content" class:visibility--hidden={overlay}>
     <h1>{heading}</h1>
     <div class="spaced--small my--auto">
-      <Duration />
+      <Duration limit={threshold || end} displayMode={$timeDisplayMode} />
       <fieldset>
         <legend class="sr-only">Display time</legend>
         <Toggle
-          legend="display"
           bind:value={$timeDisplayMode}
           options={{ [ELAPSED]: 'Elapsed', [REMAINING]: 'Remaining' }} />
       </fieldset>

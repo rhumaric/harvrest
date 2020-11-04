@@ -51,6 +51,10 @@ export function clock({ hours, minutes, seconds }) {
   return `${padTime(minutes)}:${padTime(seconds)}`;
 }
 
+export function nearestSecond(time) {
+  return Math.round(time / 1000) * 1000;
+}
+
 export function datetimeAttribute({ hours, minutes, seconds }) {
   return `PT${hours || 0}H${minutes || 0}M${seconds || 0}S`;
 }
