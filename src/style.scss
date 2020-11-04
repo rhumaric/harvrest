@@ -1,3 +1,5 @@
+@import 'style/abstract.scss';
+
 :root {
   --shadow-color: #e9cac3;
   --primary: #460160;
@@ -115,10 +117,7 @@ legend {
 
 input {
   font: inherit;
-  border-top-left-radius: calc(6em / 16) 50%;
-  border-top-right-radius: calc(6em / 16) 50%;
-  border-bottom-left-radius: calc(6em / 16) 50%;
-  border-bottom-right-radius: calc(6em / 16) 50%;
+  border-radius: #{(6em / 16)} / 50%;
   border: solid 0.125rem;
   font-weight:bold;
   min-width: 0;
@@ -144,10 +143,7 @@ button,
   display: inline-block;
   font: inherit;
   appearance: none;
-  border-top-left-radius: calc(6em / 16) 50%;
-  border-top-right-radius: calc(6em / 16) 50%;
-  border-bottom-left-radius: calc(6em / 16) 50%;
-  border-bottom-right-radius: calc(6em / 16) 50%;
+  border-radius: #{(6em / 16)} / 50%;
   border: solid var(--button-border-width) white;
   --button-background: var(--primary);
   background: var(--button-background);
@@ -155,37 +151,20 @@ button,
   padding: 0.5rem calc(1rem - var(--button__padding-offset-x)) 0.5rem calc(1rem + var(--button__padding-offset-x));
   font-weight: bold;
   text-transform: uppercase;
-  box-shadow: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
   cursor: pointer;
   text-decoration: none;
 
-  --original-elevation: var(--elevation);
-  transition: 0.2s ease-in-out;
-  transition-property: transform, box-shadow;
-}
-
-button:hover,
-.button:hover {
-  --shadow-elevation__y: var(--elevation-high);
-  transform: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
-}
-
-button:active,
-.button:active {
-  --shadow-elevation__y: var(--elevation-low);
-  transform: none;
-  transition: none;
+  @include shadow-with-hover-transition;
 }
 
 .button--secondary,
 .button--secondary:visited {
   background: var(--light);
   color: var(--primary);
-  box-shadow: inset 0 0 0 var(--button-border-width) currentColor, 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
+  box-shadow: $box-shadow--inset, $box-shadow--elevation;
 }
 
 .button--low {
-  --shadow-elevation__y: var(--elevation-low);
   --original-elevation: var(--elevation-low);
 }
 
@@ -195,16 +174,6 @@ button:active,
 
 .button--low:active {
   --shadow-elevation__y: var(--elevation-lowest);
-}
-
-button:hover,
-.button:hover {
-  text-decoration: underline;
-}
-
-button:active,
-.button:active {
-  box-shadow: 0;
 }
 
 *:focus {
@@ -274,12 +243,9 @@ button:active,
 }
 
 .content {
-  border-top-left-radius: 5% 50%;
-  border-top-right-radius: 5% 50%;
-  border-bottom-left-radius: 5% 50%;
-  border-bottom-right-radius: 5% 50%;
+  border-radius: 5%/50%;
   background: var(--light);
-  box-shadow: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
+  box-shadow: $box-shadow--elevation;
 
   padding: 2.25rem 2rem 4rem;
   position: relative;
@@ -313,33 +279,21 @@ button:active,
   min-width: 10ch;
 }
 
-:root {
-  --stepper-border-width: 0.125rem;
-}
+$stepper-border-width: 0.125rem;
 
 .stepper {
   display: grid;
   grid-template-columns: auto 1fr auto;
   grid-gap: 0;
-  border-top-left-radius: calc(6em / 16 + var(--stepper-border-width)) 50%;
-  border-top-right-radius: calc(6em / 16 + var(--stepper-border-width)) 50%;
-  border-bottom-left-radius: calc(6em / 16 + var(--stepper-border-width)) 50%;
-  border-bottom-right-radius: calc(6em / 16 + var(--stepper-border-width)) 50%;
-  --shadow-elevation__y: var(--elevation-low);
-  box-shadow: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
-  border: solid var(--stepper-border-width) white;
+  border-radius: calc(#{(6em / 16)} + #{$stepper-border-width}) / 50%;
+  border: solid $stepper-border-width white;
   overflow: hidden;
 
-  --original-elevation: var(--elevation-low);
-  transition: 0.2s ease-in-out;
-  transition-property: transform, box-shadow;
-  position: relative;
-  z-index: 0;
-}
-
-.stepper:hover {
-  --shadow-elevation__y: var(--elevation);
-  transform: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
+  @include shadow-with-hover-transition(
+    $original-elevation: var(--elevation-low), 
+    $hover-elevation: var(--elevation), 
+    $active: false
+  )
 }
 
 .stepper--error {
@@ -400,7 +354,15 @@ button:active,
 }
 
 .stepper-with-unit {
-  position:relative;
+
+  position: relative;
+
+  @include shadow-with-hover-transition(
+    $original-elevation: var(--elevation-low),
+    $hover-elevation: var(--elevation-lowish),
+    $active: false,
+    $selector: '> *'
+  );
 }
 
 .stepper-with-unit__unit {
@@ -409,22 +371,6 @@ button:active,
   left: 50%;
   --centering-transform: translate(-50%, -50%);
   transform: var(--centering-transform);
-}
-
-.stepper-with-unit .stepper-with-unit__unit {
-  --shadow-elevation__y: var(--elevation-low);
-  box-shadow: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
-
-  --original-elevation: var(--elevation-low);
-  transition: 0.2s ease-in-out;
-  transition-property: transform, box-shadow;
-}
-
-
-.stepper-with-unit:hover > * {
-  --shadow-elevation__y: var(--elevation-lowish);
-  --hover-transform: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
-  transform: var(--hover-transform);
 }
 
 .stepper-with-unit:hover .stepper-with-unit__unit {
@@ -518,10 +464,7 @@ button:active,
   width: 80%;
   background: var(--primary);
   color: white;
-  border-top-left-radius: 5% 50%;
-  border-top-right-radius: 5% 50%;
-  border-bottom-left-radius: 5% 50%;
-  border-bottom-right-radius: 5% 50%;
+  border-radius: 5% / 50%;
 }
 
 .visibility--hidden {
@@ -530,13 +473,8 @@ button:active,
 
 @supports(display: grid) {
 
-  :root {
-    /* Set a custom font-size to easily adjust all the measures
-       by setting them in em */
-    --checkbox-tick__font-size: 0.8rem;
-    --checkbox-width: 1.625rem;
-    --checkbox-height: 1.5rem;
-  }
+  $checkbox-width: 1.625rem;
+  $checkbox-height: 1.5rem;
 
   .checkbox > * {
     cursor: pointer;
@@ -546,8 +484,8 @@ button:active,
     opacity: 0;
     position: absolute;
     transform: translateY(0.25em);
-    width: var(--checkbox-width);
-    height: var(--checkbox-height);
+    width: $checkbox-width;
+    height: $checkbox-height;
   }
 
   .checkbox label {
@@ -557,10 +495,13 @@ button:active,
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
 
-    --shadow-elevation__y: var(--elevation-low);
-    --original-elevation: var(--elevation-low);
-    --hover-transform: rotate(0);
-    --transition: transform 0.1s ease-in-out;
+    @include shadow-with-hover-transition(
+      $original-elevation: var(--elevation-low),
+      $hover: false, // The hover state is a bit more convoluted than :hover
+      $active: false, // And so is the active state
+      $selector: '::before', // It'll be the `::before` component that bears the shadow
+      $transition-duration: 0.1s // Slightly faster animation because the element is smaller
+    )
   }
 
   .checkbox label::before,
@@ -569,27 +510,26 @@ button:active,
     grid-row: 1/1;
     align-self: center;
     justify-self: center;
-    font-size: var(--checkbox-tick__font-size);
+
+    /* Set a custom font-size to easily adjust all the measures
+       by setting them in em */
+    font-size: 0.8rem;
   }
 
   .checkbox label::before {
     content: '';
-    width: var(--checkbox-width);
-    height: var(--checkbox-height);
-    border-top-left-radius: 6px 50%;
-    border-bottom-left-radius: 6px 50%;
-    border-top-right-radius: 6px 50%;
-    border-bottom-right-radius: 6px 50%;
+    width: $checkbox-width;
+    height: $checkbox-height;
+    border-radius: 6px / 50%;
     border: solid 0.125rem white;
     background: white;
-    box-shadow: inset 0 0 0 var(--button-border-width) currentColor, 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
-    transform: var(--hover-transform);
-    transition: var(--transition);
+    // Override the box shadow as we need to set an inset
+    box-shadow: $box-shadow--inset, $box-shadow--elevation;
   }
 
   .checkbox label::after {
     content: '';
-    --tick-transform: translateY(-0.0625rem) rotate(-45deg);
+    --tick-transform: translateY(-0.0625em) rotate(-45deg);
     transform: var(--hover-transform) var(--tick-transform);
     transition: var(--transition);
     border-bottom: solid 0.25em white;
@@ -611,12 +551,11 @@ button:active,
   .checkbox label:hover,
   .checkbox :hover + label {
     --shadow-elevation__y: var(--elevation-lowish);
-    --hover-transform: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
+    --hover-transform: #{$transform--elevate};
   }
 
   .checkbox :active + label {
     --shadow-elevation__y: var(--elevation-lowest);
-    --hover-transform: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
   }
 
   .checkbox :hover + label::before,

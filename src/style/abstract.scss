@@ -1,0 +1,52 @@
+$box-shadow--inset: inset 0 0 0 var(--button-border-width) currentColor;
+$box-shadow--elevation: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
+$transform--elevate: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
+
+@mixin in-selector($selector: null) {
+  @if $selector {
+    &#{$selector} {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin shadow-with-hover-transition(
+  $original-elevation: var(--elevation),
+  $hover-elevation: var(--elevation-high),
+  $hover: true,
+  $active: true,
+  $selector: null,
+  $transition-duration: 0.2s
+) {
+  --original-elevation: #{$original-elevation};
+  --shadow-elevation__y: var(--original-elevation);
+  --hover-transform: ;
+  --transition: #{$transition-duration} ease-in-out;
+
+  @include in-selector($selector) {
+    box-shadow: $box-shadow--elevation;
+    transition-property: transform, box-shadow;
+    transform: var(--hover-transform);
+    transition: var(--transition);
+  }
+
+  @if ($hover) {
+    &:hover {
+      --shadow-elevation__y: #{$hover-elevation};
+      --hover-transform: #{$transform--elevate};
+    }
+  }
+  
+  @if $active {
+    &:active {
+      --shadow-elevation__y: var(--elevation-low);
+      --hover-transform: ;
+
+      @include in-selector($selector) {
+        transition: none;
+      }
+    }
+  } 
+}

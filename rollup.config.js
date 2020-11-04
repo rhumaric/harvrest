@@ -5,6 +5,7 @@ import replace from '@rollup/plugin-replace';
 import url from '@rollup/plugin-url';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import postcss from 'rollup-plugin-postcss';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -74,6 +75,9 @@ export default {
     url({
       publicPath: 'build/',
       include: ['**/*.mp3', '**/*.svg']
+    }),
+    postcss({
+      extract: 'style.css'
     }),
 
     // In dev mode, call `npm run start` once
