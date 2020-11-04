@@ -1,3 +1,13 @@
+// Foundation's strip-unit function
+/// Removes the unit from a numeric value
+///
+/// @param {Number} $value - The value to strip unit from
+///
+/// @return {Number} The number, without its unit
+@function strip-unit($value) {
+  @return $value / ($value * 0 + 1);
+}
+
 $box-shadow--inset: inset 0 0 0 var(--button-border-width) currentColor;
 $box-shadow--elevation: 0 var(--shadow-elevation__y) var(--shadow-elevation__color);
 $transform--elevate: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--original-elevation))));
@@ -27,9 +37,9 @@ $transform--elevate: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--or
 
   @include in-selector($selector) {
     box-shadow: $box-shadow--elevation;
-    transition-property: transform, box-shadow;
     transform: var(--hover-transform);
     transition: var(--transition);
+    transition-property: transform, box-shadow;
   }
 
   @if ($hover) {
@@ -42,7 +52,8 @@ $transform--elevate: translateY(calc(-1 * (var(--shadow-elevation__y) - var(--or
   @if $active {
     &:active {
       --shadow-elevation__y: var(--elevation-low);
-      --hover-transform: ;
+      // Necessary for touch as the element won't be hovered
+      --hover-transform: #{$transform--elevate};
 
       @include in-selector($selector) {
         transition: none;

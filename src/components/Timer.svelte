@@ -105,10 +105,16 @@
 <div class="stack">
   <div class="stack-content" class:visibility--hidden={overlay}>
     <h1>{heading}</h1>
-    <Duration />
-    <Toggle
-      bind:value={$timeDisplayMode}
-      options={{ [ELAPSED]: 'Elapsed', [REMAINING]: 'Remaining' }} />
+    <div class="spaced--small my--auto">
+      <Duration />
+      <fieldset>
+        <legend class="sr-only">Display time</legend>
+        <Toggle
+          legend="display"
+          bind:value={$timeDisplayMode}
+          options={{ [ELAPSED]: 'Elapsed', [REMAINING]: 'Remaining' }} />
+      </fieldset>
+    </div>
     <div class="content__action content-actions">
       {#if allowPause}
         <button on:click={onPauseClick}>

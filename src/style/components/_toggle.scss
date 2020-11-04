@@ -1,0 +1,110 @@
+@supports(display: grid) {
+  .radio-toggle {
+
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.5rem;
+
+    > * {
+      flex: none;
+    }
+
+    label {
+      min-width: (84rem / 16);
+    }
+
+    label:first-of-type {
+      text-align: right;
+    }
+
+    label:last-of-type {
+      order: 1;
+    }
+    input:last-of-type {
+      order: 1;
+    }
+
+    :checked + label {
+      font-weight: bold;
+    }
+
+    :not(:checked) + label {
+      cursor: pointer;
+    }
+
+    input {
+      opacity: 0;
+      position: absolute;
+      transform: translateY(0.25em);
+      width: $checkbox-width;
+      height: $checkbox-height;
+    }
+
+    &:hover span {
+      --shadow-elevation__y: var(--elevation-lowish);
+      --hover-transform: #{$transform--elevate};
+    }
+
+    :active ~ span,
+    span.active {
+      --shadow-elevation__y: var(--elevation-lowest);
+      // Necessary for touch as the element won't be hovered
+      --hover-transform: #{$transform--elevate};
+      transition: none;
+    }
+
+    :focus + label {
+      outline: solid 0.125rem var(--primary-light);
+      outline-offset: 0.125rem;
+    }
+
+    :focus:not(:focus-visible) + label {
+      outline: none;
+    }
+
+    input:last-of-type:checked ~ span {
+      --toggle-transform-factor: var(--toggle-transform-factor--on);
+    }
+  }
+
+  :root {
+    --toggle-transform-factor--on: 1;
+    --toggle-transform-factor--off: 0;
+  }
+
+  .toggle {
+    $toggle-width: 1.625 * $checkbox-width;
+    $toggle-thumb-size: $checkbox-height - 0.75rem;
+
+    cursor: pointer;
+      border-radius: 6px / 50%;
+      width: $toggle-width;
+      padding: 0.125rem;
+      border: solid 0.125rem white;
+      background: white;
+      @include shadow-with-hover-transition(
+        $original-elevation: var(--elevation-low), 
+        $hover-elevation: var(--elevation-lowish), 
+        $active: false,
+        $hover: false,
+        $transition-duration: 0.1s
+      );
+      // Override the box shadow as we need to set an inset
+      box-shadow: $box-shadow--inset, $box-shadow--elevation;
+      --toggle-transform-factor: var(--toggle-transform-factor--off);
+      
+
+      &::before {
+        content: '';
+        display: block;
+        border-radius: 2px / 50%;
+        height: $toggle-thumb-size;
+        width: $toggle-thumb-size;
+        background: var(--primary);
+        margin: 0.125rem;
+        transition: transform 0.1s ease-in-out;
+        transform: translateX(#{'calc(var(--toggle-transform-factor) * #{$toggle-width - $toggle-thumb-size - 0.75rem})'});
+      }
+  }
+}

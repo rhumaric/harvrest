@@ -42,7 +42,9 @@
 }
 
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
 }
@@ -432,10 +434,6 @@ $stepper-border-width: 0.125rem;
   font-size: 3rem;
 }
 
-.content .timer {
-  margin-bottom: 1rem;
-}
-
 .stack {
   display: grid;
   justify-items: center;
@@ -445,10 +443,6 @@ $stepper-border-width: 0.125rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.stack-content > .timer {
-  margin: auto;
 }
 
 .stack > * {
@@ -471,10 +465,10 @@ $stepper-border-width: 0.125rem;
   visibility: hidden;
 }
 
-@supports(display: grid) {
+$checkbox-width: 1.625rem;
+$checkbox-height: 1.5rem;
 
-  $checkbox-width: 1.625rem;
-  $checkbox-height: 1.5rem;
+@supports(display: grid) {
 
   .checkbox > * {
     cursor: pointer;
@@ -527,13 +521,15 @@ $stepper-border-width: 0.125rem;
     box-shadow: $box-shadow--inset, $box-shadow--elevation;
   }
 
+  $tick-width: 0.1825em;
+
   .checkbox label::after {
     content: '';
-    --tick-transform: translateY(-0.0625em) rotate(-45deg);
+    --tick-transform: translateY(-0.0625em) rotate(-45deg) scale(1.25);
     transform: var(--hover-transform) var(--tick-transform);
     transition: var(--transition);
-    border-bottom: solid 0.25em white;
-    border-left: solid 0.25em white;
+    border-bottom: solid $tick-width white;
+    border-left: solid $tick-width white;
     border-bottom-left-radius: 0.125em;
     height: 0.375em;
     width: 0.75em;
@@ -556,6 +552,8 @@ $stepper-border-width: 0.125rem;
 
   .checkbox :active + label {
     --shadow-elevation__y: var(--elevation-lowest);
+    // Necessary for touch where item won't be hovered
+    --hover-transform: #{$transform--elevate};
   }
 
   .checkbox :hover + label::before,
@@ -659,6 +657,11 @@ $stepper-border-width: 0.125rem;
   margin-top: var(--spacing-small);
 }
 
+.my--auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
 .twist {
   font-weight: bold;
   color: var(--primary);
@@ -701,3 +704,5 @@ $stepper-border-width: 0.125rem;
   font-size: 1.5rem;
   line-height: 1;
 }
+
+@import 'style/components/toggle';
