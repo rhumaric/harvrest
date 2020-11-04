@@ -1,11 +1,9 @@
 import 'focus-visible';
 import App from './App.svelte';
-import { shouldLoadFonts, loadFonts } from './fonts';
+import { shouldLoadFonts, loadFonts, supportsFontLoading } from 'lib/fonts';
 
-if ('fonts' in document) {
-  if (shouldLoadFonts()) {
-    loadFonts();
-  }
+if (supportsFontLoading() && shouldLoadFonts()) {
+  loadFonts();
 }
 
 // Code goes here

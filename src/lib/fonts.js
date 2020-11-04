@@ -1,3 +1,7 @@
+export function supportsFontLoading() {
+  return 'fonts' in document;
+}
+
 export function shouldLoadFonts() {
   return !(
     navigator.connection &&
