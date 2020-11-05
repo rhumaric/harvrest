@@ -20,15 +20,21 @@ export const title = derived(
   }
 );
 
-export function page(pageTitle, { prefix, live = true } = {}) {
+export function page(pageTitle, { prefix, live = true, blank = false } = {}) {
   liveStore.set(live);
   pageTitleStore.set(pageTitle);
   pagePrefixStore.set(prefix);
+  if (blank) {
+    return '';
+  }
   return pageTitle;
 }
 
-export function pagePrefix(prefix, { live = false } = {}) {
+export function pagePrefix(prefix, { live = false, blank = false } = {}) {
   liveStore.set(live);
   pagePrefixStore.set(prefix);
+  if (blank) {
+    return '';
+  }
   return prefix;
 }

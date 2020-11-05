@@ -1,30 +1,49 @@
 <script>
-  import { breakdown, elapsed } from 'stores/timer.js';
-  import { REMAINING } from 'stores/timeDisplayMode.js';
+  import { elapsed } from 'stores/timer.js';
+  import { REMAINING } from 'stores/timeDisplay.js';
   import {
     clock,
     datetimeAttribute,
-    breakdown as timeBreakdown,
+    breakdown,
     nearestSecond
   } from 'lib/time.js';
-  import { pagePrefix } from 'stores/title.js';
 
   export let limit;
   export let displayMode;
+  // A little ugly, but the fastest way to get not to run `pagePrefix`
+  // when not needed by the timer
+  export let title = v => v;
 
-  function sign(time) {
-    // Use 500 to account for the rounding
-    if (time > 500) {
+  function sign(remaining) {
+    // Only start displaying after the 1st second
+    if (remaining < 0) {
       return '+';
     }
 
     return '';
   }
+
+  function remainingSeconds(remaining) {
+    return Math.abs(remaining);
+  }
+
+  // Floor the elapsed time for display
+  // to avoid rounding issues when formatting
+  // Must be at display so that timer remains accurate
+  // for stopping
+  let floored;
+  $: floored = Math.floor($elapsed / 1000) * 1000;
 </script>
 
-<time class="timer" datetime={datetimeAttribute($breakdown)}>
+<time class="timer" datetime={datetimeAttribute(breakdown(elapsed))}>
   {#if displayMode == REMAINING}
-    {sign($elapsed - limit)}
-    {pagePrefix(clock(timeBreakdown(nearestSecond(Math.abs($elapsed - limit)))))}
-  {:else}{pagePrefix(clock($breakdown))}{/if}
+    {title(
+      `${sign(limit - floored)} ${clock(
+        breakdown(remainingSeconds(limit - floored))
+      )}`,
+      { blank: true }
+    )}
+    <span>{sign(limit - floored)}</span>
+    {clock(breakdown(remainingSeconds(limit - floored)))}
+  {:else}{title(clock(breakdown(floored)))}{/if}
 </time>

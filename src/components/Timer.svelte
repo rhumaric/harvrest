@@ -4,7 +4,7 @@
   import Duration from 'components/Duration.svelte';
   import Notification from 'components/Notification.svelte';
   import { page, pagePrefix } from 'stores/title.js';
-  import { timer, running, breakdown } from 'stores/timer.js';
+  import { timer, running } from 'stores/timer.js';
   import { once } from 'stores/once.js';
   import { afterTick } from 'stores/afterTick.js';
   import { messages } from 'stores';
@@ -15,7 +15,7 @@
     notificationsSettings
   } from 'stores';
   import Toggle from './Toggle.svelte';
-  import { timeDisplayMode, ELAPSED, REMAINING } from 'stores/timeDisplayMode';
+  import { mode, ELAPSED, REMAINING } from 'stores/timeDisplay.js';
   import endUrl from 'audio/reward-notification__joao-janz.mp3';
   import thresholdUrl from 'audio/bonus-points__joao-janz.mp3';
 
@@ -77,9 +77,9 @@
   $: overlay = stopped || $endReached;
 
   $: if (overlay) {
-    pagePrefix(messages.heading);
     // Leave time for element to be rendered before focusing
     tick().then(() => {
+      pagePrefix($messages.heading);
       focusTarget.focus();
     });
   }
@@ -91,10 +91,6 @@
       timer.start();
     }
   }
-
-  onMount(() => {
-    page(heading);
-  });
 </script>
 
 {#if $notification}
@@ -102,13 +98,16 @@
 {/if}
 <div class="stack">
   <div class="stack-content" class:visibility--hidden={overlay}>
-    <h1>{heading}</h1>
+    <h1>{page(heading)}</h1>
     <div class="spaced--small my--auto">
-      <Duration limit={threshold || end} displayMode={$timeDisplayMode} />
+      <Duration
+        title={overlay ? v => v : pagePrefix}
+        limit={threshold || end}
+        displayMode={$mode} />
       <fieldset>
         <legend class="sr-only">Display time</legend>
         <Toggle
-          bind:value={$timeDisplayMode}
+          bind:value={$mode}
           options={{ [ELAPSED]: 'Elapsed', [REMAINING]: 'Remaining' }} />
       </fieldset>
     </div>

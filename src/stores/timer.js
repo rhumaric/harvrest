@@ -1,14 +1,10 @@
 import { storable, AS_BOOLEAN, AS_INT } from './storable';
 import { derived, get, writable } from 'svelte/store';
-import { breakdown as timeBreakdown } from 'lib/time';
 
 export const timer = createStore();
 export const elapsed = timer.elapsed;
 export const running = timer.running;
 export const startTime = timer.startTime;
-export const breakdown = derived([elapsed], ([elapsed]) => {
-  return timeBreakdown(elapsed);
-});
 
 export function createStore() {
   const stores = {
@@ -55,7 +51,8 @@ export function createStore() {
       // Update the time a first time, to handle reloads
       updateTime();
       // Tick faster than every second to compensate for
-      interval = setInterval(updateTime, 200);
+      // setInterval's inaccuracy
+      interval = setInterval(updateTime, 50);
     }
     stores.running.set(true);
   }

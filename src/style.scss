@@ -432,6 +432,11 @@ $stepper-border-width: 0.125rem;
   border-radius: 0.25em;
   color: var(--primary);
   font-size: 3rem;
+
+  span {
+    position: relative;
+    bottom: 0.125em;
+  }
 }
 
 .stack {
