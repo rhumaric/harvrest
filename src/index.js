@@ -1,4 +1,5 @@
 import 'focus-visible';
+import 'lib/submitterPolyfill.js';
 import App from './App.svelte';
 import 'style.scss';
 import { shouldLoadFonts, loadFonts, supportsFontLoading } from 'lib/fonts';

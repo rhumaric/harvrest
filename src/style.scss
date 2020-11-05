@@ -667,6 +667,10 @@ $checkbox-height: 1.5rem;
   margin-bottom: auto;
 }
 
+.d--none {
+  display: none;
+}
+
 .twist {
   font-weight: bold;
   color: var(--primary);

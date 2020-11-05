@@ -25,6 +25,8 @@
   <a class="back-link" href="#/settings">Back</a>
   <h1 id="title" class="mt--0">{title}</h1>
   <slot {editableData} />
+  <!-- Empty hidden button that'll get used by keyboard submission so the primary action triggers -->
+  <button name="go" class="d--none" />
   <div class="content__action content-actions">
     <button name="save" class="button--secondary">Save</button>
     <button name="go">Let's go!</button>
